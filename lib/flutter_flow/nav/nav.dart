@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '/backend/schema/structs/index.dart';
@@ -120,10 +121,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/profilePage',
           builder: (context, params) => params.isEmpty
               ? const NavBarPage(initialPage: 'ProfilePage')
-              : const NavBarPage(
-                  initialPage: 'ProfilePage',
-                  page: ProfilePageWidget(),
-                ),
+              : const ProfilePageWidget(),
         ),
         FFRoute(
           name: 'CreatePostPage',
@@ -137,6 +135,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             initialPage: '',
             page: PopWidget(),
           ),
+        ),
+        FFRoute(
+          name: 'Search',
+          path: '/search',
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'Search')
+              : const NavBarPage(
+                  initialPage: 'Search',
+                  page: SearchWidget(),
+                ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -325,10 +333,9 @@ class FFRoute {
                   child: SizedBox(
                     width: 50.0,
                     height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
+                    child: SpinKitSquareCircle(
+                      color: FlutterFlowTheme.of(context).primary,
+                      size: 50.0,
                     ),
                   ),
                 )

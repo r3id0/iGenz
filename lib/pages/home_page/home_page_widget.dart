@@ -7,11 +7,13 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
@@ -29,7 +31,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
   late HomePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  var hasIconButtonTriggered1 = false;
+  var hasIconButtonTriggered2 = false;
   final animationsMap = <String, AnimationInfo>{};
 
   @override
@@ -76,11 +79,38 @@ class _HomePageWidgetState extends State<HomePageWidget>
       'cardOnPageLoadAnimation': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
-          VisibilityEffect(duration: 1.ms),
+          VisibilityEffect(duration: 10.ms),
           FadeEffect(
             curve: Curves.easeInOutQuint,
-            delay: 0.0.ms,
+            delay: 10.0.ms,
             duration: 600.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 10.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(0.0, 150.0),
+            end: const Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+      'iconButtonOnActionTriggerAnimation1': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: false,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.easeInOutQuint,
+            delay: 100.0.ms,
+            duration: 300.0.ms,
+            begin: const Offset(-5.0, -5.0),
+            end: const Offset(1.0, 1.0),
+          ),
+          SaturateEffect(
+            curve: Curves.easeInOut,
+            delay: 150.0.ms,
+            duration: 300.0.ms,
             begin: 0.0,
             end: 1.0,
           ),
@@ -88,12 +118,45 @@ class _HomePageWidgetState extends State<HomePageWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 150.0),
+            begin: const Offset(0.0, 10.0),
+            end: const Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+      'iconButtonOnActionTriggerAnimation2': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: false,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.easeInOutQuint,
+            delay: 100.0.ms,
+            duration: 300.0.ms,
+            begin: const Offset(-5.0, -5.0),
+            end: const Offset(1.0, 1.0),
+          ),
+          SaturateEffect(
+            curve: Curves.easeInOut,
+            delay: 150.0.ms,
+            duration: 300.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(0.0, 10.0),
             end: const Offset(0.0, 0.0),
           ),
         ],
       ),
     });
+    setupAnimations(
+      animationsMap.values.where((anim) =>
+          anim.trigger == AnimationTrigger.onActionTrigger ||
+          !anim.applyInitialState),
+      this,
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -117,25 +180,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70.0),
+            preferredSize: const Size.fromHeight(60.0),
             child: AppBar(
               backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
               automaticallyImplyLeading: false,
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FlutterFlowIconButton(
-                  borderRadius: 8.0,
-                  buttonSize: 40.0,
-                  icon: const Icon(
-                    Icons.menu,
-                    color: Color(0xFF909090),
-                    size: 24.0,
-                  ),
-                  onPressed: () {
-                    print('IconButton pressed ...');
-                  },
-                ),
-              ),
               title: Align(
                 alignment: const AlignmentDirectional(0.0, 0.0),
                 child: ClipRRect(
@@ -149,23 +197,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   ),
                 ),
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlutterFlowIconButton(
-                    borderRadius: 8.0,
-                    buttonSize: 50.0,
-                    icon: const Icon(
-                      Icons.manage_search,
-                      color: Color(0xFF909090),
-                      size: 24.0,
-                    ),
-                    onPressed: () {
-                      print('IconButton pressed ...');
-                    },
-                  ),
-                ),
-              ],
+              actions: const [],
               centerTitle: true,
               elevation: 0.0,
             ),
@@ -179,6 +211,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 color: FlutterFlowTheme.of(context).primaryBackground,
               ),
               child: RefreshIndicator(
+                color: FlutterFlowTheme.of(context).primary,
+                strokeWidth: 1.0,
                 onRefresh: () async {
                   safeSetState(() {
                     FFAppState().clearFeedpostsCache();
@@ -207,8 +241,14 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                     style: FlutterFlowTheme.of(context)
                                         .titleLarge
                                         .override(
-                                          fontFamily: 'Inter Tight',
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleLargeFamily,
                                           letterSpacing: 0.0,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLargeFamily),
                                         ),
                                   ),
                                 ),
@@ -256,8 +296,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMediumFamily,
                                                           letterSpacing: 0.0,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMediumFamily),
                                                         ),
                                               ),
                                             ),
@@ -295,10 +344,16 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   .of(context)
                                                               .titleSmall
                                                               .override(
-                                                                fontFamily:
-                                                                    'Inter Tight',
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmallFamily,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .titleSmallFamily),
                                                               ),
                                                         ),
                                                       ),
@@ -318,7 +373,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                       },
                                                       text: 'Create Post',
                                                       options: FFButtonOptions(
-                                                        height: 40.0,
+                                                        height: 35.0,
                                                         padding:
                                                             const EdgeInsetsDirectional
                                                                 .fromSTEB(
@@ -333,28 +388,35 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                     0.0,
                                                                     0.0,
                                                                     0.0),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .titleSmall
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Inter Tight',
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmallFamily,
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .primary,
+                                                                      .secondaryText,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .titleSmallFamily),
                                                                 ),
                                                         elevation: 0.0,
                                                         borderSide: BorderSide(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primary,
-                                                          width: 3.0,
+                                                          width: 0.0,
                                                         ),
                                                         borderRadius:
                                                             BorderRadius
@@ -377,209 +439,347 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               animationsMap['columnOnPageLoadAnimation']!),
                         ],
                       ),
-                      FutureBuilder<List<PostsRow>>(
-                        future: FFAppState()
-                            .feedposts(
-                          requestFn: () => PostsTable().queryRows(
-                            queryFn: (q) => q.order('created_at'),
-                          ),
-                        )
-                            .then((result) {
-                          _model.requestCompleted = true;
-                          return result;
-                        }),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return const GrayloadingwidgetWidget();
-                          }
-                          List<PostsRow> feedPostsRowList = snapshot.data!;
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 64.0),
+                        child: FutureBuilder<List<PostsRow>>(
+                          future: FFAppState()
+                              .feedposts(
+                            requestFn: () => PostsTable().queryRows(
+                              queryFn: (q) => q.order('created_at'),
+                            ),
+                          )
+                              .then((result) {
+                            _model.requestCompleted = true;
+                            return result;
+                          }),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return const GrayloadingwidgetWidget();
+                            }
+                            List<PostsRow> feedPostsRowList = snapshot.data!;
 
-                          return RefreshIndicator(
-                            onRefresh: () async {},
-                            child: ListView.separated(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              primary: false,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemCount: feedPostsRowList.length,
-                              separatorBuilder: (_, __) =>
-                                  const SizedBox(height: 8.0),
-                              itemBuilder: (context, feedIndex) {
-                                final feedPostsRow =
-                                    feedPostsRowList[feedIndex];
-                                return Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  elevation: 0.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0.0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(100.0),
-                                              child: CachedNetworkImage(
-                                                fadeInDuration:
-                                                    const Duration(milliseconds: 500),
-                                                fadeOutDuration:
-                                                    const Duration(milliseconds: 500),
-                                                imageUrl:
-                                                    'https://images.unsplash.com/photo-1518331483807-f6adb0e1ad23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxsZWdvfGVufDB8fHx8MTczMDEyNjcyNXww&ixlib=rb-4.0.3&q=80&w=1080',
-                                                width: 35.0,
-                                                height: 35.0,
-                                                fit: BoxFit.cover,
-                                                memCacheWidth: 35,
-                                                memCacheHeight: 35,
+                            return RefreshIndicator(
+                              color: FlutterFlowTheme.of(context).primary,
+                              strokeWidth: 1.0,
+                              onRefresh: () async {},
+                              child: ListView.separated(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                primary: false,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: feedPostsRowList.length,
+                                separatorBuilder: (_, __) =>
+                                    const SizedBox(height: 8.0),
+                                itemBuilder: (context, feedIndex) {
+                                  final feedPostsRow =
+                                      feedPostsRowList[feedIndex];
+                                  return Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(0.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0),
+                                                child: CachedNetworkImage(
+                                                  fadeInDuration: const Duration(
+                                                      milliseconds: 500),
+                                                  fadeOutDuration: const Duration(
+                                                      milliseconds: 500),
+                                                  imageUrl:
+                                                      'https://images.unsplash.com/photo-1518331483807-f6adb0e1ad23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxsZWdvfGVufDB8fHx8MTczMDEyNjcyNXww&ixlib=rb-4.0.3&q=80&w=1080',
+                                                  width: 35.0,
+                                                  height: 35.0,
+                                                  fit: BoxFit.cover,
+                                                  memCacheWidth: 35,
+                                                  memCacheHeight: 35,
+                                                ),
                                               ),
-                                            ),
-                                            Flexible(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '${feedPostsRow.author}',
+                                              Flexible(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '${feedPostsRow.author}',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodySmall
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodySmallFamily,
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodySmallFamily),
+                                                                lineHeight: 1.2,
+                                                              ),
+                                                    ),
+                                                    Text(
+                                                      '@${feedPostsRow.authorUsername}',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily,
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyMediumFamily),
+                                                                lineHeight: 1.0,
+                                                              ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ].divide(const SizedBox(width: 4.0)),
+                                          ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              if (valueOrDefault<bool>(
+                                                feedPostsRow.title != null &&
+                                                    feedPostsRow.title != '',
+                                                true,
+                                              ))
+                                                Align(
+                                                  alignment:
+                                                      const AlignmentDirectional(
+                                                          -1.0, 0.0),
+                                                  child: Text(
+                                                    valueOrDefault<String>(
+                                                      feedPostsRow.title,
+                                                      'title',
+                                                    ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
-                                                        .bodySmall
+                                                        .bodyLarge
                                                         .override(
-                                                          fontFamily: 'Inter',
-                                                          fontSize: 16.0,
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyLargeFamily,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.bold,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyLargeFamily),
                                                         ),
                                                   ),
-                                                  Text(
-                                                    '@${feedPostsRow.authorUsername}',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                  ),
-                                                ].divide(const SizedBox(height: 3.0)),
-                                              ),
-                                            ),
-                                          ].divide(const SizedBox(width: 4.0)),
-                                        ),
-                                        Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            if (valueOrDefault<bool>(
-                                              feedPostsRow.title != null &&
-                                                  feedPostsRow.title != '',
-                                              true,
-                                            ))
+                                                ),
                                               Align(
                                                 alignment: const AlignmentDirectional(
                                                     -1.0, 0.0),
                                                 child: Text(
                                                   valueOrDefault<String>(
-                                                    feedPostsRow.title,
-                                                    'title',
+                                                    feedPostsRow.caption,
+                                                    'caption',
                                                   ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
-                                                      .bodyLarge
+                                                      .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Inter',
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
                                                         letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily),
                                                       ),
                                                 ),
                                               ),
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  -1.0, 0.0),
-                                              child: Text(
+                                            ].divide(const SizedBox(height: 8.0)),
+                                          ),
+                                          Text(
+                                            '${dateTimeFormat("MMMEd", functions.convertToLocalTime(feedPostsRow.createdAt))} - ${dateTimeFormat("relative", functions.convertToLocalTime(feedPostsRow.createdAt))}',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  fontFamily:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmallFamily,
+                                                  fontSize: 10.0,
+                                                  letterSpacing: 0.0,
+                                                  useGoogleFonts: GoogleFonts
+                                                          .asMap()
+                                                      .containsKey(
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodySmallFamily),
+                                                ),
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              if (feedPostsRow.likes.contains(
+                                                      currentUserUid) ==
+                                                  false)
+                                                Align(
+                                                  alignment:
+                                                      const AlignmentDirectional(
+                                                          -0.85, 0.05),
+                                                  child: FlutterFlowIconButton(
+                                                    borderColor:
+                                                        Colors.transparent,
+                                                    borderRadius: 8.0,
+                                                    buttonSize: 40.0,
+                                                    icon: Icon(
+                                                      Icons.favorite_border,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      size: 24.0,
+                                                    ),
+                                                    onPressed: () async {
+                                                      await actions
+                                                          .addIDtoArray(
+                                                        currentUserUid,
+                                                        feedPostsRow.id,
+                                                        'posts',
+                                                        'likes',
+                                                      );
+                                                      safeSetState(() {
+                                                        FFAppState()
+                                                            .clearFeedpostsCache();
+                                                        _model.requestCompleted =
+                                                            false;
+                                                      });
+                                                      await _model
+                                                          .waitForRequestCompleted();
+                                                    },
+                                                  ).animateOnActionTrigger(
+                                                      animationsMap[
+                                                          'iconButtonOnActionTriggerAnimation1']!,
+                                                      hasBeenTriggered:
+                                                          hasIconButtonTriggered1),
+                                                ),
+                                              if (feedPostsRow.likes.contains(
+                                                      currentUserUid) ==
+                                                  true)
+                                                Align(
+                                                  alignment:
+                                                      const AlignmentDirectional(
+                                                          0.0, 0.0),
+                                                  child: FlutterFlowIconButton(
+                                                    borderColor:
+                                                        Colors.transparent,
+                                                    borderRadius: 8.0,
+                                                    buttonSize: 40.0,
+                                                    icon: Icon(
+                                                      Icons.favorite_rounded,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      size: 24.0,
+                                                    ),
+                                                    onPressed: () async {
+                                                      await actions
+                                                          .removeIDfromArray(
+                                                        currentUserUid,
+                                                        feedPostsRow.id,
+                                                        'posts',
+                                                        'likes',
+                                                      );
+                                                      safeSetState(() {
+                                                        FFAppState()
+                                                            .clearFeedpostsCache();
+                                                        _model.requestCompleted =
+                                                            false;
+                                                      });
+                                                      await _model
+                                                          .waitForRequestCompleted();
+                                                    },
+                                                  ).animateOnActionTrigger(
+                                                      animationsMap[
+                                                          'iconButtonOnActionTriggerAnimation2']!,
+                                                      hasBeenTriggered:
+                                                          hasIconButtonTriggered2),
+                                                ),
+                                              Text(
                                                 valueOrDefault<String>(
-                                                  feedPostsRow.caption,
-                                                  'caption',
+                                                  feedPostsRow.likes.length
+                                                      .toString(),
+                                                  '0',
                                                 ),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          fontFamily:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMediumFamily,
                                                           letterSpacing: 0.0,
+                                                          useGoogleFonts: GoogleFonts
+                                                                  .asMap()
+                                                              .containsKey(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMediumFamily),
                                                         ),
                                               ),
-                                            ),
-                                          ].divide(const SizedBox(height: 8.0)),
-                                        ),
-                                        Text(
-                                          '${dateTimeFormat("MMMEd", functions.convertToLocalTime(feedPostsRow.createdAt))} - ${dateTimeFormat("relative", functions.convertToLocalTime(feedPostsRow.createdAt))}',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodySmall
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                fontSize: 10.0,
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            FlutterFlowIconButton(
-                                              borderColor: Colors.transparent,
-                                              borderRadius: 8.0,
-                                              buttonSize: 40.0,
-                                              icon: Icon(
-                                                Icons.favorite_border,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                size: 24.0,
-                                              ),
-                                              onPressed: () {
-                                                print('IconButton pressed ...');
-                                              },
-                                            ),
-                                            Text(
-                                              valueOrDefault<String>(
-                                                feedPostsRow.likes?.toString(),
-                                                '0',
-                                              ),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                            ),
-                                          ].divide(const SizedBox(width: 4.0)),
-                                        ),
-                                      ].divide(const SizedBox(height: 8.0)),
+                                            ].divide(const SizedBox(width: 4.0)),
+                                          ),
+                                        ].divide(const SizedBox(height: 8.0)),
+                                      ),
                                     ),
-                                  ),
-                                ).animateOnPageLoad(
-                                    animationsMap['cardOnPageLoadAnimation']!);
-                              },
-                            ),
-                          );
-                        },
+                                  ).animateOnPageLoad(animationsMap[
+                                      'cardOnPageLoadAnimation']!);
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),

@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'register_model.dart';
 export 'register_model.dart';
 
@@ -95,9 +96,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     child: Text(
                       'Create an Account',
                       style: FlutterFlowTheme.of(context).titleLarge.override(
-                            fontFamily: 'Inter Tight',
+                            fontFamily:
+                                FlutterFlowTheme.of(context).titleLargeFamily,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w800,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).titleLargeFamily),
                           ),
                     ),
                   ),
@@ -116,10 +120,14 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily,
                                   color: FlutterFlowTheme.of(context).tertiary,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.bold,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyMediumFamily),
                                 ),
                           ),
                           TextSpan(
@@ -127,15 +135,23 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.normal,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyMediumFamily),
                                 ),
                           )
                         ],
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodyMediumFamily,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily),
                             ),
                       ),
                     ),
@@ -161,15 +177,21 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Inter Tight',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
                             ),
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Inter',
                                   color: const Color(0xFF9E9E9E),
                                   letterSpacing: 0.0,
+                                  useGoogleFonts:
+                                      GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -226,6 +248,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
                             letterSpacing: 0.0,
+                            useGoogleFonts:
+                                GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -254,15 +278,21 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Inter Tight',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
                             ),
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Inter',
                                   color: const Color(0xFF9E9E9E),
                                   letterSpacing: 0.0,
+                                  useGoogleFonts:
+                                      GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -319,6 +349,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
                             letterSpacing: 0.0,
+                            useGoogleFonts:
+                                GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -347,15 +379,21 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Inter Tight',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
                             ),
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Inter',
                                   color: const Color(0xFF9E9E9E),
                                   letterSpacing: 0.0,
+                                  useGoogleFonts:
+                                      GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -412,6 +450,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
                             letterSpacing: 0.0,
+                            useGoogleFonts:
+                                GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -440,15 +480,21 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Inter Tight',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
                             ),
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Inter',
                                   color: const Color(0xFF9E9E9E),
                                   letterSpacing: 0.0,
+                                  useGoogleFonts:
+                                      GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -504,6 +550,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
                             letterSpacing: 0.0,
+                            useGoogleFonts:
+                                GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -527,15 +575,21 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Inter Tight',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
                             ),
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Inter',
                                   color: const Color(0xFF9E9E9E),
                                   letterSpacing: 0.0,
+                                  useGoogleFonts:
+                                      GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -591,6 +645,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
                             letterSpacing: 0.0,
+                            useGoogleFonts:
+                                GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -614,15 +670,21 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Inter Tight',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
                             ),
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Inter',
                                   color: const Color(0xFF9E9E9E),
                                   letterSpacing: 0.0,
+                                  useGoogleFonts:
+                                      GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -678,6 +740,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
                             letterSpacing: 0.0,
+                            useGoogleFonts:
+                                GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -697,9 +761,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       child: Text(
                         'passwords do not match!',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).bodyMediumFamily,
                               color: FlutterFlowTheme.of(context).error,
                               letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily),
                             ),
                       ),
                     ),
@@ -712,10 +780,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     child: Text(
                       'Birthdate',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily:
+                                FlutterFlowTheme.of(context).bodyMediumFamily,
                             fontSize: 16.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.bold,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).bodyMediumFamily),
                           ),
                     ),
                   ),
@@ -748,10 +819,15 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                   headerTextStyle: FlutterFlowTheme.of(context)
                                       .headlineLarge
                                       .override(
-                                        fontFamily: 'Inter Tight',
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .headlineLargeFamily,
                                         fontSize: 32.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .headlineLargeFamily),
                                       ),
                                   pickerBackgroundColor:
                                       FlutterFlowTheme.of(context)
@@ -790,9 +866,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Inter Tight',
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .titleSmallFamily,
                                   color: Colors.black,
                                   letterSpacing: 0.0,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .titleSmallFamily),
                                 ),
                             elevation: 0.0,
                             borderRadius: BorderRadius.circular(8.0),
@@ -809,8 +889,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily,
                                   letterSpacing: 0.0,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyMediumFamily),
                                 ),
                           ),
                         ),
@@ -825,8 +909,12 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily,
                                   letterSpacing: 0.0,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyMediumFamily),
                                 ),
                           ),
                         ),
@@ -893,6 +981,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               context.goNamedAuth(
                                 'LogIn',
                                 context.mounted,
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: const TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType:
+                                        PageTransitionType.rightToLeft,
+                                  ),
+                                },
                                 ignoreRedirect: true,
                               );
                             },
@@ -905,12 +1000,17 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                         iconPadding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
-                        textStyle:
-                            FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Inter Tight',
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
-                                ),
+                        textStyle: FlutterFlowTheme.of(context)
+                            .titleSmall
+                            .override(
+                              fontFamily:
+                                  FlutterFlowTheme.of(context).titleSmallFamily,
+                              color: Colors.white,
+                              letterSpacing: 0.0,
+                              useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                  FlutterFlowTheme.of(context)
+                                      .titleSmallFamily),
+                            ),
                         elevation: 5.0,
                         borderRadius: BorderRadius.circular(24.0),
                       ),
@@ -939,8 +1039,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily,
                                     letterSpacing: 0.0,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyMediumFamily),
                                   ),
                             ),
                             TextSpan(
@@ -948,19 +1053,29 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily,
                                     color:
                                         FlutterFlowTheme.of(context).tertiary,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyMediumFamily),
                                   ),
                             )
                           ],
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily),
+                              ),
                         ),
                       ),
                     ),

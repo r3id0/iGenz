@@ -81,7 +81,17 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(
         brightness: Brightness.light,
-        useMaterial3: false,
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return const Color(0x1ae2c000);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return const Color(0x1ae2c000);
+            }
+            return const Color(0x1ae2c000);
+          }),
+        ),
       ),
       themeMode: _themeMode,
       routerConfig: _router,
@@ -116,6 +126,7 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'HomePage': const HomePageWidget(),
       'ProfilePage': const ProfilePageWidget(),
+      'Search': const SearchWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -142,7 +153,7 @@ class _NavBarPageState extends State<NavBarPage> {
         itemBorderRadius: 8.0,
         margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
         padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        width: double.infinity,
+        width: MediaQuery.sizeOf(context).width * 0.7,
         elevation: 0.0,
         items: [
           FloatingNavbarItem(
@@ -174,19 +185,43 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  currentIndex == 1
-                      ? Icons.face_retouching_natural
-                      : Icons.face_retouching_natural,
+                  Icons.face_retouching_natural,
                   color: currentIndex == 1
                       ? FlutterFlowTheme.of(context).primary
                       : FlutterFlowTheme.of(context).primaryText,
-                  size: currentIndex == 1 ? 24.0 : 24.0,
+                  size: 24.0,
                 ),
                 Text(
                   'Profile',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 1
+                        ? FlutterFlowTheme.of(context).primary
+                        : FlutterFlowTheme.of(context).primaryText,
+                    fontSize: 11.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          FloatingNavbarItem(
+            customWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  currentIndex == 2
+                      ? Icons.search_rounded
+                      : Icons.search_rounded,
+                  color: currentIndex == 2
+                      ? FlutterFlowTheme.of(context).primary
+                      : FlutterFlowTheme.of(context).primaryText,
+                  size: currentIndex == 2 ? 24.0 : 24.0,
+                ),
+                Text(
+                  'Search',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 2
                         ? FlutterFlowTheme.of(context).primary
                         : FlutterFlowTheme.of(context).primaryText,
                     fontSize: 11.0,

@@ -23,9 +23,6 @@ class PostsRow extends SupabaseDataRow {
   String? get caption => getField<String>('caption');
   set caption(String? value) => setField<String>('caption', value);
 
-  int? get likes => getField<int>('likes');
-  set likes(int? value) => setField<int>('likes', value);
-
   String? get user => getField<String>('user');
   set user(String? value) => setField<String>('user', value);
 
@@ -38,4 +35,7 @@ class PostsRow extends SupabaseDataRow {
 
   String get id => getField<String>('id')!;
   set id(String value) => setField<String>('id', value);
+
+  List<String> get likes => getListField<String>('likes');
+  set likes(List<String>? value) => setListField<String>('likes', value);
 }

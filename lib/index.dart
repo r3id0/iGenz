@@ -8,3 +8,4 @@ export '/pages/profile_page/profile_page_widget.dart' show ProfilePageWidget;
 export '/pages/create_post_page/create_post_page_widget.dart'
     show CreatePostPageWidget;
 export '/pop/pop_widget.dart' show PopWidget;
+export '/pages/search/search_widget.dart' show SearchWidget;
