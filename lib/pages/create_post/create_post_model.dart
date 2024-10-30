@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'create_post_page_widget.dart' show CreatePostPageWidget;
+import 'create_post_widget.dart' show CreatePostWidget;
 import 'package:flutter/material.dart';
 
-class CreatePostPageModel extends FlutterFlowModel<CreatePostPageWidget> {
+class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();

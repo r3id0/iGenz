@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '/backend/schema/structs/index.dart';
 
+import '/backend/supabase/supabase.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -106,35 +107,27 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'HomePage',
-          path: '/homePage',
+          name: 'Home',
+          path: '/home',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'HomePage')
+              ? const NavBarPage(initialPage: 'Home')
               : const NavBarPage(
-                  initialPage: 'HomePage',
-                  page: HomePageWidget(),
+                  initialPage: 'Home',
+                  page: HomeWidget(),
                 ),
         ),
         FFRoute(
-          name: 'ProfilePage',
-          path: '/profilePage',
+          name: 'Profile',
+          path: '/profile',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'ProfilePage')
-              : const ProfilePageWidget(),
+              ? const NavBarPage(initialPage: 'Profile')
+              : const ProfileWidget(),
         ),
         FFRoute(
-          name: 'CreatePostPage',
-          path: '/createPostPage',
-          builder: (context, params) => const CreatePostPageWidget(),
-        ),
-        FFRoute(
-          name: 'pop',
-          path: '/pop',
-          builder: (context, params) => const NavBarPage(
-            initialPage: '',
-            page: PopWidget(),
-          ),
+          name: 'CreatePost',
+          path: '/createPost',
+          builder: (context, params) => const CreatePostWidget(),
         ),
         FFRoute(
           name: 'Search',
@@ -145,6 +138,23 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                   initialPage: 'Search',
                   page: SearchWidget(),
                 ),
+        ),
+        FFRoute(
+          name: 'EditPost',
+          path: '/editPost',
+          builder: (context, params) => EditPostWidget(
+            selectedPost: params.getParam<PostsRow>(
+              'selectedPost',
+              ParamType.SupabaseRow,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'TalkToGemini',
+          path: '/talkToGemini',
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'TalkToGemini')
+              : const TalkToGeminiWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

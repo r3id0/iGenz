@@ -111,7 +111,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPageName = 'HomePage';
+  String _currentPageName = 'Home';
   late Widget? _currentPage;
 
   @override
@@ -124,9 +124,10 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'HomePage': const HomePageWidget(),
-      'ProfilePage': const ProfilePageWidget(),
+      'Home': const HomeWidget(),
+      'Profile': const ProfileWidget(),
       'Search': const SearchWidget(),
+      'TalkToGemini': const TalkToGeminiWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -152,7 +153,7 @@ class _NavBarPageState extends State<NavBarPage> {
         borderRadius: 8.0,
         itemBorderRadius: 8.0,
         margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+        padding: const EdgeInsets.all(0.0),
         width: MediaQuery.sizeOf(context).width * 0.7,
         elevation: 0.0,
         items: [
@@ -209,19 +210,41 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  currentIndex == 2
-                      ? Icons.search_rounded
-                      : Icons.search_rounded,
+                  Icons.search_rounded,
                   color: currentIndex == 2
                       ? FlutterFlowTheme.of(context).primary
                       : FlutterFlowTheme.of(context).primaryText,
-                  size: currentIndex == 2 ? 24.0 : 24.0,
+                  size: 24.0,
                 ),
                 Text(
                   'Search',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 2
+                        ? FlutterFlowTheme.of(context).primary
+                        : FlutterFlowTheme.of(context).primaryText,
+                    fontSize: 11.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          FloatingNavbarItem(
+            customWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.auto_awesome,
+                  color: currentIndex == 3
+                      ? FlutterFlowTheme.of(context).primary
+                      : FlutterFlowTheme.of(context).primaryText,
+                  size: 24.0,
+                ),
+                Text(
+                  'Gemini',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: currentIndex == 3
                         ? FlutterFlowTheme.of(context).primary
                         : FlutterFlowTheme.of(context).primaryText,
                     fontSize: 11.0,

@@ -43,7 +43,8 @@
 	<true/>
 
 
-
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>for uploading media for posts and profiles</string>
 
 
 	<key>UILaunchStoryboardName</key>

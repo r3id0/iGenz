@@ -9,26 +9,26 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'home_page_model.dart';
-export 'home_page_model.dart';
+import 'home_model.dart';
+export 'home_model.dart';
 
-class HomePageWidget extends StatefulWidget {
+class HomeWidget extends StatefulWidget {
   /// user home page where feed and proflie is located
-  const HomePageWidget({super.key});
+  const HomeWidget({super.key});
 
   @override
-  State<HomePageWidget> createState() => _HomePageWidgetState();
+  State<HomeWidget> createState() => _HomeWidgetState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget>
-    with TickerProviderStateMixin {
-  late HomePageModel _model;
+class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
+  late HomeModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var hasIconButtonTriggered1 = false;
@@ -38,7 +38,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HomePageModel());
+    _model = createModel(context, () => HomeModel());
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -56,10 +56,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
         id: _model.queryUser?.first.id,
       );
       safeSetState(() {});
-      safeSetState(() {
-        FFAppState().clearFeedpostsCache();
-        _model.requestCompleted = false;
-      });
+      safeSetState(() => _model.requestCompleter = null);
     });
 
     animationsMap.addAll({
@@ -73,6 +70,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
             duration: 600.0.ms,
             begin: 0.0,
             end: 1.0,
+          ),
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-100.0, 0.0),
+            end: const Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -214,10 +218,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                 color: FlutterFlowTheme.of(context).primary,
                 strokeWidth: 1.0,
                 onRefresh: () async {
-                  safeSetState(() {
-                    FFAppState().clearFeedpostsCache();
-                    _model.requestCompleted = false;
-                  });
+                  safeSetState(() => _model.requestCompleter = null);
                   await _model.waitForRequestCompleted();
                 },
                 child: SingleChildScrollView(
@@ -260,8 +261,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(50.0),
+                                    Container(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
                                       child: CachedNetworkImage(
                                         fadeInDuration:
                                             const Duration(milliseconds: 500),
@@ -269,8 +275,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                             const Duration(milliseconds: 500),
                                         imageUrl:
                                             'https://images.unsplash.com/photo-1720760594163-4281dc642293?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxMHx8Y2FsbWluZyUyMG5hdHVyZXxlbnwwfHx8fDE3MzAxMjE3MTB8MA&ixlib=rb-4.0.3&q=80&w=1080',
-                                        width: 50.0,
-                                        height: 50.0,
                                         fit: BoxFit.cover,
                                         memCacheWidth: 50,
                                         memCacheHeight: 50,
@@ -318,43 +322,69 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                               children: [
                                                 Flexible(
                                                   flex: 2,
-                                                  child: Card(
-                                                    clipBehavior: Clip
-                                                        .antiAliasWithSaveLayer,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    elevation: 0.0,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                    child: Align(
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                              0.0, 0.0),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets.all(8.0),
-                                                        child: Text(
-                                                          'Say what\'s on your mind.',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .titleSmall
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmallFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .titleSmallFamily),
-                                                              ),
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                        'CreatePost',
+                                                        extra: <String,
+                                                            dynamic>{
+                                                          kTransitionInfoKey:
+                                                              const TransitionInfo(
+                                                            hasTransition: true,
+                                                            transitionType:
+                                                                PageTransitionType
+                                                                    .leftToRight,
+                                                          ),
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Card(
+                                                      clipBehavior: Clip
+                                                          .antiAliasWithSaveLayer,
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      elevation: 0.0,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            const AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets.all(
+                                                                  8.0),
+                                                          child: Text(
+                                                            'Say what\'s on your mind',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmallFamily,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .titleSmallFamily),
+                                                                ),
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -369,7 +399,19 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                     child: FFButtonWidget(
                                                       onPressed: () async {
                                                         context.pushNamed(
-                                                            'CreatePostPage');
+                                                          'CreatePost',
+                                                          extra: <String,
+                                                              dynamic>{
+                                                            kTransitionInfoKey:
+                                                                const TransitionInfo(
+                                                              hasTransition:
+                                                                  true,
+                                                              transitionType:
+                                                                  PageTransitionType
+                                                                      .leftToRight,
+                                                            ),
+                                                          },
+                                                        );
                                                       },
                                                       text: 'Create Post',
                                                       options: FFButtonOptions(
@@ -443,16 +485,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 64.0),
                         child: FutureBuilder<List<PostsRow>>(
-                          future: FFAppState()
-                              .feedposts(
-                            requestFn: () => PostsTable().queryRows(
-                              queryFn: (q) => q.order('created_at'),
-                            ),
-                          )
-                              .then((result) {
-                            _model.requestCompleted = true;
-                            return result;
-                          }),
+                          future: (_model.requestCompleter ??=
+                                  Completer<List<PostsRow>>()
+                                    ..complete(PostsTable().queryRows(
+                                      queryFn: (q) => q.order('created_at'),
+                                    )))
+                              .future,
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -493,10 +531,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0),
+                                              Container(
+                                                width: 35.0,
+                                                height: 35.0,
+                                                clipBehavior: Clip.antiAlias,
+                                                decoration: const BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                ),
                                                 child: CachedNetworkImage(
                                                   fadeInDuration: const Duration(
                                                       milliseconds: 500),
@@ -504,8 +545,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                       milliseconds: 500),
                                                   imageUrl:
                                                       'https://images.unsplash.com/photo-1518331483807-f6adb0e1ad23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxsZWdvfGVufDB8fHx8MTczMDEyNjcyNXww&ixlib=rb-4.0.3&q=80&w=1080',
-                                                  width: 35.0,
-                                                  height: 35.0,
                                                   fit: BoxFit.cover,
                                                   memCacheWidth: 35,
                                                   memCacheHeight: 35,
@@ -687,12 +726,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         'posts',
                                                         'likes',
                                                       );
-                                                      safeSetState(() {
-                                                        FFAppState()
-                                                            .clearFeedpostsCache();
-                                                        _model.requestCompleted =
-                                                            false;
-                                                      });
+                                                      safeSetState(() => _model
+                                                              .requestCompleter =
+                                                          null);
                                                       await _model
                                                           .waitForRequestCompleted();
                                                     },
@@ -730,12 +766,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         'posts',
                                                         'likes',
                                                       );
-                                                      safeSetState(() {
-                                                        FFAppState()
-                                                            .clearFeedpostsCache();
-                                                        _model.requestCompleted =
-                                                            false;
-                                                      });
+                                                      safeSetState(() => _model
+                                                              .requestCompleter =
+                                                          null);
                                                       await _model
                                                           .waitForRequestCompleted();
                                                     },

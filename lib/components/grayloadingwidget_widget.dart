@@ -117,8 +117,8 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
       children: [
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xFFCECECE),
-          elevation: 1.0,
+          color: const Color(0xCDF1F4F8),
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -133,8 +133,8 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation1']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xFFCECECE),
-          elevation: 1.0,
+          color: const Color(0xCDF1F4F8),
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -149,8 +149,8 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation2']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xFFCECECE),
-          elevation: 1.0,
+          color: const Color(0xCDF1F4F8),
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -165,8 +165,8 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation3']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xFFCECECE),
-          elevation: 1.0,
+          color: const Color(0xCDF1F4F8),
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -181,8 +181,8 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation4']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xFFCECECE),
-          elevation: 1.0,
+          color: const Color(0xCDF1F4F8),
+          elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),

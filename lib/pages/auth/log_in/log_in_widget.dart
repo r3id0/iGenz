@@ -419,7 +419,7 @@ class _LogInWidgetState extends State<LogInWidget> {
                         }
 
                         context.goNamedAuth(
-                          'HomePage',
+                          'Home',
                           context.mounted,
                           extra: <String, dynamic>{
                             kTransitionInfoKey: const TransitionInfo(

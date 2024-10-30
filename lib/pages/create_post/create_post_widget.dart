@@ -9,26 +9,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'create_post_page_model.dart';
-export 'create_post_page_model.dart';
+import 'create_post_model.dart';
+export 'create_post_model.dart';
 
-class CreatePostPageWidget extends StatefulWidget {
+class CreatePostWidget extends StatefulWidget {
   /// post creation page for users
-  const CreatePostPageWidget({super.key});
+  const CreatePostWidget({super.key});
 
   @override
-  State<CreatePostPageWidget> createState() => _CreatePostPageWidgetState();
+  State<CreatePostWidget> createState() => _CreatePostWidgetState();
 }
 
-class _CreatePostPageWidgetState extends State<CreatePostPageWidget> {
-  late CreatePostPageModel _model;
+class _CreatePostWidgetState extends State<CreatePostWidget> {
+  late CreatePostModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CreatePostPageModel());
+    _model = createModel(context, () => CreatePostModel());
 
     _model.titleTextController ??= TextEditingController();
     _model.titleFocusNode ??= FocusNode();
@@ -101,11 +101,6 @@ class _CreatePostPageWidgetState extends State<CreatePostPageWidget> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [],
-                ),
                 Expanded(
                   flex: 9,
                   child: Form(
@@ -342,8 +337,7 @@ class _CreatePostPageWidgetState extends State<CreatePostPageWidget> {
                                 '${FFAppState().currentUser.firstName} ${FFAppState().currentUser.lastName}',
                             'likes': [],
                           });
-
-                          context.goNamed('HomePage');
+                          context.safePop();
                         },
                         text: 'POST',
                         options: FFButtonOptions(

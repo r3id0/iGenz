@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'flutter_flow/request_manager.dart';
 import '/backend/schema/structs/index.dart';
-import 'backend/supabase/supabase.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
@@ -58,21 +56,6 @@ class FFAppState extends ChangeNotifier {
     updateFn(_currentUser);
     secureStorage.setString('ff_currentUser', _currentUser.serialize());
   }
-
-  final _feedpostsManager = FutureRequestManager<List<PostsRow>>();
-  Future<List<PostsRow>> feedposts({
-    String? uniqueQueryKey,
-    bool? overrideCache,
-    required Future<List<PostsRow>> Function() requestFn,
-  }) =>
-      _feedpostsManager.performRequest(
-        uniqueQueryKey: uniqueQueryKey,
-        overrideCache: overrideCache,
-        requestFn: requestFn,
-      );
-  void clearFeedpostsCache() => _feedpostsManager.clear();
-  void clearFeedpostsCacheKey(String? uniqueKey) =>
-      _feedpostsManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {
