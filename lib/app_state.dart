@@ -56,6 +56,48 @@ class FFAppState extends ChangeNotifier {
     updateFn(_currentUser);
     secureStorage.setString('ff_currentUser', _currentUser.serialize());
   }
+
+  String _systemMessage =
+      'You are a comedian that tells jokes about computer science.';
+  String get systemMessage => _systemMessage;
+  set systemMessage(String value) {
+    _systemMessage = value;
+  }
+
+  String _prompt = '';
+  String get prompt => _prompt;
+  set prompt(String value) {
+    _prompt = value;
+  }
+
+  List<ChatStruct> _chats = [];
+  List<ChatStruct> get chats => _chats;
+  set chats(List<ChatStruct> value) {
+    _chats = value;
+  }
+
+  void addToChats(ChatStruct value) {
+    chats.add(value);
+  }
+
+  void removeFromChats(ChatStruct value) {
+    chats.remove(value);
+  }
+
+  void removeAtIndexFromChats(int index) {
+    chats.removeAt(index);
+  }
+
+  void updateChatsAtIndex(
+    int index,
+    ChatStruct Function(ChatStruct) updateFn,
+  ) {
+    chats[index] = updateFn(_chats[index]);
+  }
+
+  void insertAtIndexInChats(int index, ChatStruct value) {
+    chats.insert(index, value);
+  }
 }
 
 void _safeInit(Function() initializeField) {

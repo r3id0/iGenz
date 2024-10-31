@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'talk_to_gemini_widget.dart' show TalkToGeminiWidget;
@@ -17,9 +18,29 @@ class TalkToGeminiModel extends FlutterFlowModel<TalkToGeminiWidget> {
 
   String currenPrompt = ' ';
 
+  List<String> sender = [];
+  void addToSender(String item) => sender.add(item);
+  void removeFromSender(String item) => sender.remove(item);
+  void removeAtIndexFromSender(int index) => sender.removeAt(index);
+  void insertAtIndexInSender(int index, String item) =>
+      sender.insert(index, item);
+  void updateSenderAtIndex(int index, Function(String) updateFn) =>
+      sender[index] = updateFn(sender[index]);
+
+  List<String> message = [];
+  void addToMessage(String item) => message.add(item);
+  void removeFromMessage(String item) => message.remove(item);
+  void removeAtIndexFromMessage(int index) => message.removeAt(index);
+  void insertAtIndexInMessage(int index, String item) =>
+      message.insert(index, item);
+  void updateMessageAtIndex(int index, Function(String) updateFn) =>
+      message[index] = updateFn(message[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
+  // State field(s) for ListView widget.
+  ScrollController? listViewController;
   // State field(s) for userPrompt widget.
   FocusNode? userPromptFocusNode;
   TextEditingController? userPromptTextController;
@@ -33,16 +54,18 @@ class TalkToGeminiModel extends FlutterFlowModel<TalkToGeminiWidget> {
     return null;
   }
 
-  // Stores action output result for [Gemini - Generate Text] action in IconButton widget.
-  String? geminiResponse;
+  // Stores action output result for [Backend Call - API (GeminiChat)] action in IconButton widget.
+  ApiCallResponse? response;
 
   @override
   void initState(BuildContext context) {
+    listViewController = ScrollController();
     userPromptTextControllerValidator = _userPromptTextControllerValidator;
   }
 
   @override
   void dispose() {
+    listViewController?.dispose();
     userPromptFocusNode?.dispose();
     userPromptTextController?.dispose();
   }

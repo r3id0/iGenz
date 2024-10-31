@@ -154,7 +154,7 @@ class _NavBarPageState extends State<NavBarPage> {
         itemBorderRadius: 8.0,
         margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
         padding: const EdgeInsets.all(0.0),
-        width: MediaQuery.sizeOf(context).width * 0.7,
+        width: MediaQuery.sizeOf(context).width * 0.8,
         elevation: 0.0,
         items: [
           FloatingNavbarItem(
