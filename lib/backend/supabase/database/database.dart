@@ -6,5 +6,6 @@ export 'row.dart';
 export 'table.dart';
 
 export 'tables/posts.dart';
+export 'tables/comments.dart';
 export 'tables/users.dart';
 export 'tables/likes.dart';

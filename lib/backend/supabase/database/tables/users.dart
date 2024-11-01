@@ -34,7 +34,4 @@ class UsersRow extends SupabaseDataRow {
 
   int? get age => getField<int>('age');
   set age(int? value) => setField<int>('age', value);
-
-  List<String> get likes => getListField<String>('likes');
-  set likes(List<String>? value) => setListField<String>('likes', value);
 }

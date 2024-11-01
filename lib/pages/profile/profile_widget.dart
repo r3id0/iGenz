@@ -45,7 +45,20 @@ class _ProfileWidgetState extends State<ProfileWidget>
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      safeSetState(() => _model.requestCompleter = null);
+      await actions.unsubscribe(
+        'posts',
+      );
+      await Future.delayed(const Duration(milliseconds: 1000));
+      await actions.subscribe(
+        'posts',
+        () async {
+          safeSetState(() {
+            FFAppState().clearUserPostsCache();
+            _model.requestCompleted = false;
+          });
+          await _model.waitForRequestCompleted();
+        },
+      );
     });
 
     animationsMap.addAll({
@@ -310,7 +323,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
               color: FlutterFlowTheme.of(context).primary,
               strokeWidth: 1.0,
               onRefresh: () async {
-                safeSetState(() => _model.requestCompleter = null);
+                safeSetState(() {
+                  FFAppState().clearUserPostsCache();
+                  _model.requestCompleted = false;
+                });
                 await _model.waitForRequestCompleted();
               },
               child: SingleChildScrollView(
@@ -417,7 +433,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                     FlutterFlowTheme.of(context)
                                         .bodyMediumFamily),
                               ),
-                          iconColor: FlutterFlowTheme.of(context).info,
+                          iconColor: FlutterFlowTheme.of(context).primaryText,
                           iconSize: 500.0,
                           elevation: 0.0,
                           borderWidth: 0.0,
@@ -481,8 +497,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/6/600',
+                                        child: CachedNetworkImage(
+                                          fadeInDuration:
+                                              const Duration(milliseconds: 500),
+                                          fadeOutDuration:
+                                              const Duration(milliseconds: 500),
+                                          imageUrl:
+                                              'https://picsum.photos/seed/6/600',
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -547,17 +568,21 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 64.0),
                                 child: FutureBuilder<List<PostsRow>>(
-                                  future: (_model.requestCompleter ??=
-                                          Completer<List<PostsRow>>()
-                                            ..complete(PostsTable().queryRows(
-                                              queryFn: (q) => q
-                                                  .eq(
-                                                    'user',
-                                                    FFAppState().currentUser.id,
-                                                  )
-                                                  .order('created_at'),
-                                            )))
-                                      .future,
+                                  future: FFAppState()
+                                      .userPosts(
+                                    requestFn: () => PostsTable().queryRows(
+                                      queryFn: (q) => q
+                                          .eq(
+                                            'user',
+                                            FFAppState().currentUser.id,
+                                          )
+                                          .order('created_at'),
+                                    ),
+                                  )
+                                      .then((result) {
+                                    _model.requestCompleted = true;
+                                    return result;
+                                  }),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
                                     if (!snapshot.hasData) {
@@ -572,8 +597,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                           FlutterFlowTheme.of(context).primary,
                                       strokeWidth: 1.0,
                                       onRefresh: () async {
-                                        safeSetState(() =>
-                                            _model.requestCompleter = null);
+                                        safeSetState(() {
+                                          FFAppState().clearUserPostsCache();
+                                          _model.requestCompleted = false;
+                                        });
                                         await _model.waitForRequestCompleted();
                                       },
                                       child: ListView.separated(
@@ -893,9 +920,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 'posts',
                                                                 'likes',
                                                               );
-                                                              safeSetState(() =>
-                                                                  _model.requestCompleter =
-                                                                      null);
+                                                              safeSetState(() {
+                                                                FFAppState()
+                                                                    .clearUserPostsCache();
+                                                                _model.requestCompleted =
+                                                                    false;
+                                                              });
                                                               await _model
                                                                   .waitForRequestCompleted();
                                                             },
@@ -938,9 +968,12 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 'posts',
                                                                 'likes',
                                                               );
-                                                              safeSetState(() =>
-                                                                  _model.requestCompleter =
-                                                                      null);
+                                                              safeSetState(() {
+                                                                FFAppState()
+                                                                    .clearUserPostsCache();
+                                                                _model.requestCompleted =
+                                                                    false;
+                                                              });
                                                               await _model
                                                                   .waitForRequestCompleted();
                                                             },
@@ -1363,8 +1396,10 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                   _model.blur = false;
                                   _model.options = false;
                                   safeSetState(() {});
-                                  safeSetState(
-                                      () => _model.requestCompleter = null);
+                                  safeSetState(() {
+                                    FFAppState().clearUserPostsCache();
+                                    _model.requestCompleted = false;
+                                  });
                                   await _model.waitForRequestCompleted();
                                 },
                                 text: 'Delete Forever',

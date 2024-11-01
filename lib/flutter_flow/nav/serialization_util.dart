@@ -218,6 +218,8 @@ dynamic deserializeParam<T>(
         switch (T) {
           case PostsRow:
             return PostsRow(data);
+          case CommentsRow:
+            return CommentsRow(data);
           case UsersRow:
             return UsersRow(data);
           case LikesRow:

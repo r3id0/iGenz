@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'flutter_flow/request_manager.dart';
 import '/backend/schema/structs/index.dart';
+import 'backend/supabase/supabase.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
@@ -32,6 +34,24 @@ class FFAppState extends ChangeNotifier {
         }
       }
     });
+    await _safeInitAsync(() async {
+      _systemMessage =
+          await secureStorage.getString('ff_systemMessage') ?? _systemMessage;
+    });
+    await _safeInitAsync(() async {
+      _chats = (await secureStorage.getStringList('ff_chats'))
+              ?.map((x) {
+                try {
+                  return ChatStruct.fromSerializableMap(jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _chats;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -57,11 +77,15 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setString('ff_currentUser', _currentUser.serialize());
   }
 
-  String _systemMessage =
-      'You are a comedian that tells jokes about computer science.';
+  String _systemMessage = 'You and the user are happy-go-lucky gen-z';
   String get systemMessage => _systemMessage;
   set systemMessage(String value) {
     _systemMessage = value;
+    secureStorage.setString('ff_systemMessage', value);
+  }
+
+  void deleteSystemMessage() {
+    secureStorage.delete(key: 'ff_systemMessage');
   }
 
   String _prompt = '';
@@ -74,18 +98,30 @@ class FFAppState extends ChangeNotifier {
   List<ChatStruct> get chats => _chats;
   set chats(List<ChatStruct> value) {
     _chats = value;
+    secureStorage.setStringList(
+        'ff_chats', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteChats() {
+    secureStorage.delete(key: 'ff_chats');
   }
 
   void addToChats(ChatStruct value) {
     chats.add(value);
+    secureStorage.setStringList(
+        'ff_chats', _chats.map((x) => x.serialize()).toList());
   }
 
   void removeFromChats(ChatStruct value) {
     chats.remove(value);
+    secureStorage.setStringList(
+        'ff_chats', _chats.map((x) => x.serialize()).toList());
   }
 
   void removeAtIndexFromChats(int index) {
     chats.removeAt(index);
+    secureStorage.setStringList(
+        'ff_chats', _chats.map((x) => x.serialize()).toList());
   }
 
   void updateChatsAtIndex(
@@ -93,11 +129,45 @@ class FFAppState extends ChangeNotifier {
     ChatStruct Function(ChatStruct) updateFn,
   ) {
     chats[index] = updateFn(_chats[index]);
+    secureStorage.setStringList(
+        'ff_chats', _chats.map((x) => x.serialize()).toList());
   }
 
   void insertAtIndexInChats(int index, ChatStruct value) {
     chats.insert(index, value);
+    secureStorage.setStringList(
+        'ff_chats', _chats.map((x) => x.serialize()).toList());
   }
+
+  final _feedpostsManager = FutureRequestManager<List<PostsRow>>();
+  Future<List<PostsRow>> feedposts({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<List<PostsRow>> Function() requestFn,
+  }) =>
+      _feedpostsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearFeedpostsCache() => _feedpostsManager.clear();
+  void clearFeedpostsCacheKey(String? uniqueKey) =>
+      _feedpostsManager.clearRequest(uniqueKey);
+
+  final _userPostsManager = FutureRequestManager<List<PostsRow>>();
+  Future<List<PostsRow>> userPosts({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<List<PostsRow>> Function() requestFn,
+  }) =>
+      _userPostsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearUserPostsCache() => _userPostsManager.clear();
+  void clearUserPostsCacheKey(String? uniqueKey) =>
+      _userPostsManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

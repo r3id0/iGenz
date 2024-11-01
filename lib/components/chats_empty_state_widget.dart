@@ -38,7 +38,7 @@ class _ChatsEmptyStateWidgetState extends State<ChatsEmptyStateWidget> {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: 0.1,
+      opacity: 0.3,
       child: Container(
         width: double.infinity,
         height: double.infinity,

@@ -132,12 +132,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Search',
           path: '/search',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'Search')
-              : const NavBarPage(
-                  initialPage: 'Search',
-                  page: SearchWidget(),
-                ),
+          builder: (context, params) => const SearchWidget(),
         ),
         FFRoute(
           name: 'EditPost',
@@ -155,6 +150,23 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => params.isEmpty
               ? const NavBarPage(initialPage: 'TalkToGemini')
               : const TalkToGeminiWidget(),
+        ),
+        FFRoute(
+          name: 'SettingsPage',
+          path: '/settingsPage',
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'SettingsPage')
+              : const SettingsPageWidget(),
+        ),
+        FFRoute(
+          name: 'ViewPost',
+          path: '/viewPost',
+          builder: (context, params) => ViewPostWidget(
+            post: params.getParam<PostsRow>(
+              'post',
+              ParamType.SupabaseRow,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

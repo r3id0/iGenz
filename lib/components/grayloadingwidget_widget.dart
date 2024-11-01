@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -39,7 +40,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            color: const Color(0xE8F4F4FF),
+            color: const Color(0x33E2C000),
             angle: 0.524,
           ),
         ],
@@ -50,9 +51,9 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         effectsBuilder: () => [
           ShimmerEffect(
             curve: Curves.easeInOut,
-            delay: 0.0.ms,
+            delay: 150.0.ms,
             duration: 600.0.ms,
-            color: const Color(0xE8F4F4FF),
+            color: const Color(0x33E2C000),
             angle: 0.524,
           ),
         ],
@@ -63,9 +64,9 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         effectsBuilder: () => [
           ShimmerEffect(
             curve: Curves.easeInOut,
-            delay: 0.0.ms,
+            delay: 100.0.ms,
             duration: 600.0.ms,
-            color: const Color(0xE8F4F4FF),
+            color: const Color(0x33E2C000),
             angle: 0.524,
           ),
         ],
@@ -78,7 +79,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            color: const Color(0xE8F4F4FF),
+            color: const Color(0x33E2C000),
             angle: 0.524,
           ),
         ],
@@ -89,9 +90,35 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         effectsBuilder: () => [
           ShimmerEffect(
             curve: Curves.easeInOut,
+            delay: 100.0.ms,
+            duration: 600.0.ms,
+            color: const Color(0x33E2C000),
+            angle: 0.524,
+          ),
+        ],
+      ),
+      'cardOnPageLoadAnimation6': AnimationInfo(
+        loop: true,
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          ShimmerEffect(
+            curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            color: const Color(0xE8F4F4FF),
+            color: const Color(0x33E2C000),
+            angle: 0.524,
+          ),
+        ],
+      ),
+      'cardOnPageLoadAnimation7': AnimationInfo(
+        loop: true,
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          ShimmerEffect(
+            curve: Curves.easeInOut,
+            delay: 200.0.ms,
+            duration: 600.0.ms,
+            color: const Color(0x33E2C000),
             angle: 0.524,
           ),
         ],
@@ -117,7 +144,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
       children: [
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xCDF1F4F8),
+          color: FlutterFlowTheme.of(context).secondaryBackground,
           elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -133,7 +160,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation1']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xCDF1F4F8),
+          color: FlutterFlowTheme.of(context).secondaryBackground,
           elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -149,7 +176,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation2']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xCDF1F4F8),
+          color: FlutterFlowTheme.of(context).secondaryBackground,
           elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -165,7 +192,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation3']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xCDF1F4F8),
+          color: FlutterFlowTheme.of(context).secondaryBackground,
           elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -181,7 +208,7 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation4']!),
         Card(
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          color: const Color(0xCDF1F4F8),
+          color: FlutterFlowTheme.of(context).secondaryBackground,
           elevation: 0.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -195,6 +222,38 @@ class _GrayloadingwidgetWidgetState extends State<GrayloadingwidgetWidget>
             ),
           ),
         ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation5']!),
+        Card(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: MediaQuery.sizeOf(context).width * 1.0,
+              height: 150.0,
+              decoration: const BoxDecoration(),
+            ),
+          ),
+        ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation6']!),
+        Card(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          color: FlutterFlowTheme.of(context).secondaryBackground,
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: MediaQuery.sizeOf(context).width * 1.0,
+              height: 150.0,
+              decoration: const BoxDecoration(),
+            ),
+          ),
+        ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation7']!),
       ].divide(const SizedBox(height: 8.0)),
     );
   }

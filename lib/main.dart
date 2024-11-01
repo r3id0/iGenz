@@ -20,6 +20,8 @@ void main() async {
 
   await SupaFlow.initialize();
 
+  await FlutterFlowTheme.initialize();
+
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
@@ -41,7 +43,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.system;
+  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
@@ -67,6 +69,7 @@ class _MyAppState extends State<MyApp> {
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {
         _themeMode = mode;
+        FlutterFlowTheme.saveThemeMode(mode);
       });
 
   @override
@@ -81,6 +84,20 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(
         brightness: Brightness.light,
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.dragged)) {
+              return const Color(0x1ae2c000);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return const Color(0x1ae2c000);
+            }
+            return const Color(0x1ae2c000);
+          }),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
         scrollbarTheme: ScrollbarThemeData(
           thumbColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.dragged)) {
@@ -126,8 +143,8 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'Home': const HomeWidget(),
       'Profile': const ProfileWidget(),
-      'Search': const SearchWidget(),
       'TalkToGemini': const TalkToGeminiWidget(),
+      'SettingsPage': const SettingsPageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -210,14 +227,14 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.search_rounded,
+                  Icons.auto_awesome,
                   color: currentIndex == 2
                       ? FlutterFlowTheme.of(context).primary
                       : FlutterFlowTheme.of(context).primaryText,
                   size: 24.0,
                 ),
                 Text(
-                  'Search',
+                  'Gemini',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 2
@@ -234,14 +251,14 @@ class _NavBarPageState extends State<NavBarPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.auto_awesome,
+                  Icons.settings_suggest,
                   color: currentIndex == 3
                       ? FlutterFlowTheme.of(context).primary
                       : FlutterFlowTheme.of(context).primaryText,
                   size: 24.0,
                 ),
                 Text(
-                  'Gemini',
+                  'Settings',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 3

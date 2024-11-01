@@ -14,13 +14,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'home_model.dart';
 export 'home_model.dart';
 
 class HomeWidget extends StatefulWidget {
-  /// user home page where feed and proflie is located
+  /// user home page where feed is located
   const HomeWidget({super.key});
 
   @override
@@ -56,7 +57,20 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
         id: _model.queryUser?.first.id,
       );
       safeSetState(() {});
-      safeSetState(() => _model.requestCompleter = null);
+      await actions.unsubscribe(
+        'posts',
+      );
+      await Future.delayed(const Duration(milliseconds: 1000));
+      await actions.subscribe(
+        'posts',
+        () async {
+          safeSetState(() {
+            FFAppState().clearFeedpostsCache();
+            _model.requestCompleted = false;
+          });
+          await _model.waitForRequestCompleted();
+        },
+      );
     });
 
     animationsMap.addAll({
@@ -218,7 +232,10 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                 color: FlutterFlowTheme.of(context).primary,
                 strokeWidth: 1.0,
                 onRefresh: () async {
-                  safeSetState(() => _model.requestCompleter = null);
+                  safeSetState(() {
+                    FFAppState().clearFeedpostsCache();
+                    _model.requestCompleted = false;
+                  });
                   await _model.waitForRequestCompleted();
                 },
                 child: SingleChildScrollView(
@@ -485,12 +502,16 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 64.0),
                         child: FutureBuilder<List<PostsRow>>(
-                          future: (_model.requestCompleter ??=
-                                  Completer<List<PostsRow>>()
-                                    ..complete(PostsTable().queryRows(
-                                      queryFn: (q) => q.order('created_at'),
-                                    )))
-                              .future,
+                          future: FFAppState()
+                              .feedposts(
+                            requestFn: () => PostsTable().queryRows(
+                              queryFn: (q) => q.order('created_at'),
+                            ),
+                          )
+                              .then((result) {
+                            _model.requestCompleted = true;
+                            return result;
+                          }),
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
@@ -710,8 +731,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         Colors.transparent,
                                                     borderRadius: 8.0,
                                                     buttonSize: 40.0,
-                                                    icon: Icon(
-                                                      Icons.favorite_border,
+                                                    icon: FaIcon(
+                                                      FontAwesomeIcons.heart,
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -726,9 +747,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         'posts',
                                                         'likes',
                                                       );
-                                                      safeSetState(() => _model
-                                                              .requestCompleter =
-                                                          null);
+                                                      safeSetState(() {
+                                                        FFAppState()
+                                                            .clearFeedpostsCache();
+                                                        _model.requestCompleted =
+                                                            false;
+                                                      });
                                                       await _model
                                                           .waitForRequestCompleted();
                                                     },
@@ -750,8 +774,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         Colors.transparent,
                                                     borderRadius: 8.0,
                                                     buttonSize: 40.0,
-                                                    icon: Icon(
-                                                      Icons.favorite_rounded,
+                                                    icon: FaIcon(
+                                                      FontAwesomeIcons
+                                                          .solidHeart,
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -766,9 +791,12 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         'posts',
                                                         'likes',
                                                       );
-                                                      safeSetState(() => _model
-                                                              .requestCompleter =
-                                                          null);
+                                                      safeSetState(() {
+                                                        FFAppState()
+                                                            .clearFeedpostsCache();
+                                                        _model.requestCompleted =
+                                                            false;
+                                                      });
                                                       await _model
                                                           .waitForRequestCompleted();
                                                     },
@@ -780,8 +808,11 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 ),
                                               Text(
                                                 valueOrDefault<String>(
-                                                  feedPostsRow.likes.length
-                                                      .toString(),
+                                                  formatNumber(
+                                                    feedPostsRow.likes.length,
+                                                    formatType:
+                                                        FormatType.compact,
+                                                  ),
                                                   '0',
                                                 ),
                                                 style:
@@ -800,6 +831,37 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           context)
                                                                       .bodyMediumFamily),
                                                         ),
+                                              ),
+                                              FlutterFlowIconButton(
+                                                borderRadius: 8.0,
+                                                buttonSize: 40.0,
+                                                icon: FaIcon(
+                                                  FontAwesomeIcons.commentAlt,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  size: 24.0,
+                                                ),
+                                                onPressed: () async {
+                                                  context.pushNamed(
+                                                    'ViewPost',
+                                                    queryParameters: {
+                                                      'post': serializeParam(
+                                                        feedPostsRow,
+                                                        ParamType.SupabaseRow,
+                                                      ),
+                                                    }.withoutNulls,
+                                                    extra: <String, dynamic>{
+                                                      kTransitionInfoKey:
+                                                          const TransitionInfo(
+                                                        hasTransition: true,
+                                                        transitionType:
+                                                            PageTransitionType
+                                                                .rightToLeft,
+                                                      ),
+                                                    },
+                                                  );
+                                                },
                                               ),
                                             ].divide(const SizedBox(width: 4.0)),
                                           ),

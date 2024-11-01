@@ -18,7 +18,8 @@ class ProfileModel extends FlutterFlowModel<ProfileWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  Completer<List<PostsRow>>? requestCompleter;
+  bool requestCompleted = false;
+  String? requestLastUniqueKey;
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
@@ -41,7 +42,7 @@ class ProfileModel extends FlutterFlowModel<ProfileWidget> {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = requestCompleter?.isCompleted ?? false;
+      final requestComplete = requestCompleted;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

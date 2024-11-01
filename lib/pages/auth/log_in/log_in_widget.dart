@@ -9,7 +9,7 @@ import 'log_in_model.dart';
 export 'log_in_model.dart';
 
 class LogInWidget extends StatefulWidget {
-  /// LogIn Page
+  /// user logIn page
   const LogInWidget({super.key});
 
   @override

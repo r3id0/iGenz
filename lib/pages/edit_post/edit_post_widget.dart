@@ -10,7 +10,7 @@ import 'edit_post_model.dart';
 export 'edit_post_model.dart';
 
 class EditPostWidget extends StatefulWidget {
-  /// post creation page for users
+  /// edit user posts page
   const EditPostWidget({
     super.key,
     required this.selectedPost,

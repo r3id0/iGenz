@@ -1,5 +1,6 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
+import '/components/chats_empty_state_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'talk_to_gemini_widget.dart' show TalkToGeminiWidget;
 import 'package:flutter/material.dart';
@@ -36,11 +37,30 @@ class TalkToGeminiModel extends FlutterFlowModel<TalkToGeminiWidget> {
   void updateMessageAtIndex(int index, Function(String) updateFn) =>
       message[index] = updateFn(message[index]);
 
+  bool editSystemMessage = false;
+
+  bool showClearChat = false;
+
   ///  State fields for stateful widgets in this page.
 
-  final formKey = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+  final formKey1 = GlobalKey<FormState>();
+  // Model for chatsEmptyState component.
+  late ChatsEmptyStateModel chatsEmptyStateModel;
   // State field(s) for ListView widget.
   ScrollController? listViewController;
+  // State field(s) for newAIrole widget.
+  FocusNode? newAIroleFocusNode;
+  TextEditingController? newAIroleTextController;
+  String? Function(BuildContext, String?)? newAIroleTextControllerValidator;
+  String? _newAIroleTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
   // State field(s) for userPrompt widget.
   FocusNode? userPromptFocusNode;
   TextEditingController? userPromptTextController;
@@ -59,13 +79,19 @@ class TalkToGeminiModel extends FlutterFlowModel<TalkToGeminiWidget> {
 
   @override
   void initState(BuildContext context) {
+    chatsEmptyStateModel = createModel(context, () => ChatsEmptyStateModel());
     listViewController = ScrollController();
+    newAIroleTextControllerValidator = _newAIroleTextControllerValidator;
     userPromptTextControllerValidator = _userPromptTextControllerValidator;
   }
 
   @override
   void dispose() {
+    chatsEmptyStateModel.dispose();
     listViewController?.dispose();
+    newAIroleFocusNode?.dispose();
+    newAIroleTextController?.dispose();
+
     userPromptFocusNode?.dispose();
     userPromptTextController?.dispose();
   }

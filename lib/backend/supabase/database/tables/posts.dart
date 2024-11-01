@@ -38,4 +38,7 @@ class PostsRow extends SupabaseDataRow {
 
   List<String> get likes => getListField<String>('likes');
   set likes(List<String>? value) => setListField<String>('likes', value);
+
+  List<String> get comments => getListField<String>('comments');
+  set comments(List<String>? value) => setListField<String>('comments', value);
 }
