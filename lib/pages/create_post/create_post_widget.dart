@@ -201,7 +201,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                                   maxLengthEnforcement:
                                       MaxLengthEnforcement.enforced,
                                   cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                      FlutterFlowTheme.of(context).primary,
                                   validator: _model.titleTextControllerValidator
                                       .asValidator(context),
                                 ),
@@ -300,7 +300,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                                   minLines: 10,
                                   maxLength: 1024,
                                   cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                      FlutterFlowTheme.of(context).primary,
                                   validator: _model
                                       .captionTextControllerValidator
                                       .asValidator(context),
@@ -336,6 +336,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                             'author':
                                 '${FFAppState().currentUser.firstName} ${FFAppState().currentUser.lastName}',
                             'likes': [],
+                            'comments': [],
                           });
                           context.safePop();
                         },

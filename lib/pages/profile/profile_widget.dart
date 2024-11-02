@@ -16,6 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'profile_model.dart';
@@ -48,15 +49,16 @@ class _ProfileWidgetState extends State<ProfileWidget>
       await actions.unsubscribe(
         'posts',
       );
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 500));
       await actions.subscribe(
         'posts',
         () async {
           safeSetState(() {
-            FFAppState().clearUserPostsCache();
+            FFAppState().clearFeedCacheKey(_model.requestLastUniqueKey);
             _model.requestCompleted = false;
           });
           await _model.waitForRequestCompleted();
+          FFAppState().clearFeedCacheKey(currentUserUid);
         },
       );
     });
@@ -255,6 +257,19 @@ class _ProfileWidgetState extends State<ProfileWidget>
           ),
         ],
       ),
+      'textOnActionTriggerAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: true,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+        ],
+      ),
       'containerOnActionTriggerAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
         applyInitialState: true,
@@ -324,7 +339,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
               strokeWidth: 1.0,
               onRefresh: () async {
                 safeSetState(() {
-                  FFAppState().clearUserPostsCache();
+                  FFAppState().clearFeedCacheKey(_model.requestLastUniqueKey);
                   _model.requestCompleted = false;
                 });
                 await _model.waitForRequestCompleted();
@@ -343,7 +358,20 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             fadeOutDuration: const Duration(milliseconds: 500),
                             imageUrl: 'https://picsum.photos/seed/401/600',
                             width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: 200.0,
+                            height: () {
+                              if (MediaQuery.sizeOf(context).width <
+                                  kBreakpointSmall) {
+                                return 200.0;
+                              } else if (MediaQuery.sizeOf(context).width <
+                                  kBreakpointMedium) {
+                                return 300.0;
+                              } else if (MediaQuery.sizeOf(context).width <
+                                  kBreakpointLarge) {
+                                return 400.0;
+                              } else {
+                                return 0.0;
+                              }
+                            }(),
                             fit: BoxFit.cover,
                           ),
                         ).animateOnPageLoad(
@@ -352,7 +380,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                           alignment: const AlignmentDirectional(0.0, 0.0),
                           child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 100.0, 0.0, 8.0),
+                                0.0, 75.0, 0.0, 8.0),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
@@ -362,8 +390,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Container(
-                                  width: 150.0,
-                                  height: 150.0,
+                                  width: 100.0,
+                                  height: 100.0,
                                   clipBehavior: Clip.antiAlias,
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
@@ -569,7 +597,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                     0.0, 0.0, 0.0, 64.0),
                                 child: FutureBuilder<List<PostsRow>>(
                                   future: FFAppState()
-                                      .userPosts(
+                                      .feed(
+                                    uniqueQueryKey: currentUserUid,
                                     requestFn: () => PostsTable().queryRows(
                                       queryFn: (q) => q
                                           .eq(
@@ -580,7 +609,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                     ),
                                   )
                                       .then((result) {
-                                    _model.requestCompleted = true;
+                                    try {
+                                      _model.requestCompleted = true;
+                                      _model.requestLastUniqueKey =
+                                          currentUserUid;
+                                    } finally {}
                                     return result;
                                   }),
                                   builder: (context, snapshot) {
@@ -598,7 +631,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                       strokeWidth: 1.0,
                                       onRefresh: () async {
                                         safeSetState(() {
-                                          FFAppState().clearUserPostsCache();
+                                          FFAppState().clearFeedCacheKey(
+                                              _model.requestLastUniqueKey);
                                           _model.requestCompleted = false;
                                         });
                                         await _model.waitForRequestCompleted();
@@ -616,191 +650,247 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                           final userPostsPostsRow =
                                               userPostsPostsRowList[
                                                   userPostsIndex];
-                                          return Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            elevation: 0.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(0.0),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Container(
-                                                        width: 35.0,
-                                                        height: 35.0,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
+                                          return InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              context.pushNamed(
+                                                'ViewPost',
+                                                queryParameters: {
+                                                  'post': serializeParam(
+                                                    userPostsPostsRow,
+                                                    ParamType.SupabaseRow,
+                                                  ),
+                                                }.withoutNulls,
+                                                extra: <String, dynamic>{
+                                                  kTransitionInfoKey:
+                                                      const TransitionInfo(
+                                                    hasTransition: true,
+                                                    transitionType:
+                                                        PageTransitionType
+                                                            .bottomToTop,
+                                                  ),
+                                                },
+                                              );
+                                            },
+                                            child: Card(
+                                              clipBehavior:
+                                                  Clip.antiAliasWithSaveLayer,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              elevation: 0.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(0.0),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          width: 35.0,
+                                                          height: 35.0,
+                                                          clipBehavior:
+                                                              Clip.antiAlias,
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            fadeInDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            fadeOutDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        500),
+                                                            imageUrl:
+                                                                'https://images.unsplash.com/photo-1518331483807-f6adb0e1ad23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxsZWdvfGVufDB8fHx8MTczMDEyNjcyNXww&ixlib=rb-4.0.3&q=80&w=1080',
+                                                            fit: BoxFit.cover,
+                                                            memCacheWidth: 35,
+                                                            memCacheHeight: 35,
+                                                          ),
                                                         ),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fadeInDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      500),
-                                                          fadeOutDuration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      500),
-                                                          imageUrl:
-                                                              'https://images.unsplash.com/photo-1518331483807-f6adb0e1ad23?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwzfHxsZWdvfGVufDB8fHx8MTczMDEyNjcyNXww&ixlib=rb-4.0.3&q=80&w=1080',
-                                                          fit: BoxFit.cover,
-                                                          memCacheWidth: 35,
-                                                          memCacheHeight: 35,
-                                                        ),
-                                                      ),
-                                                      Flexible(
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      -1.0,
-                                                                      0.0),
-                                                              child: Text(
+                                                        Flexible(
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Align(
+                                                                alignment:
+                                                                    const AlignmentDirectional(
+                                                                        -1.0,
+                                                                        0.0),
+                                                                child: Text(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    userPostsPostsRow
+                                                                        .author,
+                                                                    'author',
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodySmall
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            FlutterFlowTheme.of(context).bodySmallFamily,
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        useGoogleFonts:
+                                                                            GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodySmallFamily),
+                                                                        lineHeight:
+                                                                            1.2,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              Text(
                                                                 valueOrDefault<
                                                                     String>(
                                                                   userPostsPostsRow
-                                                                      .author,
-                                                                  'author',
+                                                                      .authorUsername,
+                                                                  'username',
                                                                 ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .bodySmall
+                                                                    .bodyMedium
                                                                     .override(
                                                                       fontFamily:
                                                                           FlutterFlowTheme.of(context)
-                                                                              .bodySmallFamily,
+                                                                              .bodyMediumFamily,
                                                                       fontSize:
-                                                                          16.0,
+                                                                          12.0,
                                                                       letterSpacing:
                                                                           0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
                                                                       useGoogleFonts: GoogleFonts
                                                                               .asMap()
                                                                           .containsKey(
-                                                                              FlutterFlowTheme.of(context).bodySmallFamily),
+                                                                              FlutterFlowTheme.of(context).bodyMediumFamily),
                                                                       lineHeight:
-                                                                          1.2,
+                                                                          1.0,
                                                                     ),
                                                               ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Flexible(
+                                                          child: Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    1.0, 0.0),
+                                                            child:
+                                                                FlutterFlowIconButton(
+                                                              borderRadius: 8.0,
+                                                              buttonSize: 40.0,
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .keyboard_control_rounded,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                size: 24.0,
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                _model.blur =
+                                                                    true;
+                                                                _model.options =
+                                                                    true;
+                                                                _model.selectedPost =
+                                                                    userPostsPostsRow;
+                                                                safeSetState(
+                                                                    () {});
+                                                                if (animationsMap[
+                                                                        'containerOnActionTriggerAnimation1'] !=
+                                                                    null) {
+                                                                  await animationsMap[
+                                                                          'containerOnActionTriggerAnimation1']!
+                                                                      .controller
+                                                                      .forward(
+                                                                          from:
+                                                                              0.0);
+                                                                }
+                                                              },
                                                             ),
-                                                            Text(
+                                                          ),
+                                                        ),
+                                                      ].divide(
+                                                          const SizedBox(width: 4.0)),
+                                                    ),
+                                                    Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        if (valueOrDefault<
+                                                            bool>(
+                                                          userPostsPostsRow
+                                                                      .title !=
+                                                                  null &&
+                                                              userPostsPostsRow
+                                                                      .title !=
+                                                                  '',
+                                                          true,
+                                                        ))
+                                                          Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    -1.0, 0.0),
+                                                            child: Text(
                                                               valueOrDefault<
                                                                   String>(
                                                                 userPostsPostsRow
-                                                                    .authorUsername,
-                                                                'username',
+                                                                    .title,
+                                                                'title',
                                                               ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .bodyMedium
+                                                                  .bodyLarge
                                                                   .override(
                                                                     fontFamily:
                                                                         FlutterFlowTheme.of(context)
-                                                                            .bodyMediumFamily,
-                                                                    fontSize:
-                                                                        12.0,
+                                                                            .bodyLargeFamily,
                                                                     letterSpacing:
                                                                         0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
                                                                     useGoogleFonts: GoogleFonts
                                                                             .asMap()
                                                                         .containsKey(
-                                                                            FlutterFlowTheme.of(context).bodyMediumFamily),
-                                                                    lineHeight:
-                                                                        1.0,
+                                                                            FlutterFlowTheme.of(context).bodyLargeFamily),
                                                                   ),
                                                             ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Flexible(
-                                                        child: Align(
-                                                          alignment:
-                                                              const AlignmentDirectional(
-                                                                  1.0, 0.0),
-                                                          child:
-                                                              FlutterFlowIconButton(
-                                                            borderRadius: 8.0,
-                                                            buttonSize: 40.0,
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .keyboard_control_rounded,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                              size: 24.0,
-                                                            ),
-                                                            onPressed:
-                                                                () async {
-                                                              _model.blur =
-                                                                  true;
-                                                              _model.options =
-                                                                  true;
-                                                              _model.selectedPost =
-                                                                  userPostsPostsRow;
-                                                              safeSetState(
-                                                                  () {});
-                                                              if (animationsMap[
-                                                                      'containerOnActionTriggerAnimation1'] !=
-                                                                  null) {
-                                                                await animationsMap[
-                                                                        'containerOnActionTriggerAnimation1']!
-                                                                    .controller
-                                                                    .forward(
-                                                                        from:
-                                                                            0.0);
-                                                              }
-                                                            },
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ].divide(
-                                                        const SizedBox(width: 4.0)),
-                                                  ),
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      if (valueOrDefault<bool>(
-                                                        userPostsPostsRow
-                                                                    .title !=
-                                                                null &&
-                                                            userPostsPostsRow
-                                                                    .title !=
-                                                                '',
-                                                        true,
-                                                      ))
                                                         Align(
                                                           alignment:
                                                               const AlignmentDirectional(
@@ -809,190 +899,11 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                             valueOrDefault<
                                                                 String>(
                                                               userPostsPostsRow
-                                                                  .title,
-                                                              'title',
+                                                                  .caption,
+                                                              'caption',
                                                             ),
                                                             style: FlutterFlowTheme
                                                                     .of(context)
-                                                                .bodyLarge
-                                                                .override(
-                                                                  fontFamily: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyLargeFamily,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  useGoogleFonts: GoogleFonts
-                                                                          .asMap()
-                                                                      .containsKey(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyLargeFamily),
-                                                                ),
-                                                          ),
-                                                        ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                -1.0, 0.0),
-                                                        child: Text(
-                                                          valueOrDefault<
-                                                              String>(
-                                                            userPostsPostsRow
-                                                                .caption,
-                                                            'caption',
-                                                          ),
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .bodyMediumFamily),
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ].divide(
-                                                        const SizedBox(height: 8.0)),
-                                                  ),
-                                                  Text(
-                                                    '${dateTimeFormat("MMMEd", functions.convertToLocalTime(userPostsPostsRow.createdAt))} - ${dateTimeFormat("relative", functions.convertToLocalTime(userPostsPostsRow.createdAt))}',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodySmall
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodySmallFamily,
-                                                          fontSize: 10.0,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodySmallFamily),
-                                                        ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      if (userPostsPostsRow
-                                                              .likes
-                                                              .contains(
-                                                                  currentUserUid) ==
-                                                          false)
-                                                        Align(
-                                                          alignment:
-                                                              const AlignmentDirectional(
-                                                                  -0.85, 0.05),
-                                                          child:
-                                                              FlutterFlowIconButton(
-                                                            borderColor: Colors
-                                                                .transparent,
-                                                            borderRadius: 8.0,
-                                                            buttonSize: 40.0,
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .favorite_border,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              size: 24.0,
-                                                            ),
-                                                            onPressed:
-                                                                () async {
-                                                              await actions
-                                                                  .addIDtoArray(
-                                                                currentUserUid,
-                                                                userPostsPostsRow
-                                                                    .id,
-                                                                'posts',
-                                                                'likes',
-                                                              );
-                                                              safeSetState(() {
-                                                                FFAppState()
-                                                                    .clearUserPostsCache();
-                                                                _model.requestCompleted =
-                                                                    false;
-                                                              });
-                                                              await _model
-                                                                  .waitForRequestCompleted();
-                                                            },
-                                                          ).animateOnActionTrigger(
-                                                                  animationsMap[
-                                                                      'iconButtonOnActionTriggerAnimation1']!,
-                                                                  hasBeenTriggered:
-                                                                      hasIconButtonTriggered1),
-                                                        ),
-                                                      if (userPostsPostsRow
-                                                              .likes
-                                                              .contains(
-                                                                  currentUserUid) ==
-                                                          true)
-                                                        Align(
-                                                          alignment:
-                                                              const AlignmentDirectional(
-                                                                  0.0, 0.0),
-                                                          child:
-                                                              FlutterFlowIconButton(
-                                                            borderColor: Colors
-                                                                .transparent,
-                                                            borderRadius: 8.0,
-                                                            buttonSize: 40.0,
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .favorite_rounded,
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              size: 24.0,
-                                                            ),
-                                                            onPressed:
-                                                                () async {
-                                                              await actions
-                                                                  .removeIDfromArray(
-                                                                currentUserUid,
-                                                                userPostsPostsRow
-                                                                    .id,
-                                                                'posts',
-                                                                'likes',
-                                                              );
-                                                              safeSetState(() {
-                                                                FFAppState()
-                                                                    .clearUserPostsCache();
-                                                                _model.requestCompleted =
-                                                                    false;
-                                                              });
-                                                              await _model
-                                                                  .waitForRequestCompleted();
-                                                            },
-                                                          ).animateOnActionTrigger(
-                                                                  animationsMap[
-                                                                      'iconButtonOnActionTriggerAnimation2']!,
-                                                                  hasBeenTriggered:
-                                                                      hasIconButtonTriggered2),
-                                                        ),
-                                                      Text(
-                                                        valueOrDefault<String>(
-                                                          userPostsPostsRow
-                                                              .likes.length
-                                                              .toString(),
-                                                          '0',
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily: FlutterFlowTheme.of(
@@ -1006,11 +917,249 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                           FlutterFlowTheme.of(context)
                                                                               .bodyMediumFamily),
                                                                 ),
-                                                      ),
-                                                    ].divide(
-                                                        const SizedBox(width: 4.0)),
-                                                  ),
-                                                ].divide(const SizedBox(height: 8.0)),
+                                                          ),
+                                                        ),
+                                                      ].divide(const SizedBox(
+                                                          height: 8.0)),
+                                                    ),
+                                                    Text(
+                                                      '${dateTimeFormat("MMMEd", functions.convertToLocalTime(userPostsPostsRow.createdAt))} - ${dateTimeFormat("relative", functions.convertToLocalTime(userPostsPostsRow.createdAt))}',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodySmall
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodySmallFamily,
+                                                                fontSize: 10.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodySmallFamily),
+                                                              ),
+                                                    ),
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        if (userPostsPostsRow
+                                                                .likes
+                                                                .contains(
+                                                                    currentUserUid) ==
+                                                            false)
+                                                          Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    -0.85,
+                                                                    0.05),
+                                                            child:
+                                                                FlutterFlowIconButton(
+                                                              borderColor: Colors
+                                                                  .transparent,
+                                                              borderRadius: 8.0,
+                                                              buttonSize: 40.0,
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .favorite_border,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                size: 24.0,
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                await actions
+                                                                    .addIDtoArray(
+                                                                  currentUserUid,
+                                                                  userPostsPostsRow
+                                                                      .id,
+                                                                  'posts',
+                                                                  'likes',
+                                                                );
+                                                                safeSetState(
+                                                                    () {
+                                                                  FFAppState()
+                                                                      .clearFeedCacheKey(
+                                                                          _model
+                                                                              .requestLastUniqueKey);
+                                                                  _model.requestCompleted =
+                                                                      false;
+                                                                });
+                                                                await _model
+                                                                    .waitForRequestCompleted();
+                                                                FFAppState()
+                                                                    .clearFeedCacheKey(
+                                                                        currentUserUid);
+                                                              },
+                                                            ).animateOnActionTrigger(
+                                                                    animationsMap[
+                                                                        'iconButtonOnActionTriggerAnimation1']!,
+                                                                    hasBeenTriggered:
+                                                                        hasIconButtonTriggered1),
+                                                          ),
+                                                        if (userPostsPostsRow
+                                                                .likes
+                                                                .contains(
+                                                                    currentUserUid) ==
+                                                            true)
+                                                          Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    0.0, 0.0),
+                                                            child:
+                                                                FlutterFlowIconButton(
+                                                              borderColor: Colors
+                                                                  .transparent,
+                                                              borderRadius: 8.0,
+                                                              buttonSize: 40.0,
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .favorite_rounded,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                size: 24.0,
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                await actions
+                                                                    .removeIDfromArray(
+                                                                  currentUserUid,
+                                                                  userPostsPostsRow
+                                                                      .id,
+                                                                  'posts',
+                                                                  'likes',
+                                                                );
+                                                                safeSetState(
+                                                                    () {
+                                                                  FFAppState()
+                                                                      .clearFeedCacheKey(
+                                                                          _model
+                                                                              .requestLastUniqueKey);
+                                                                  _model.requestCompleted =
+                                                                      false;
+                                                                });
+                                                                await _model
+                                                                    .waitForRequestCompleted();
+                                                              },
+                                                            ).animateOnActionTrigger(
+                                                                    animationsMap[
+                                                                        'iconButtonOnActionTriggerAnimation2']!,
+                                                                    hasBeenTriggered:
+                                                                        hasIconButtonTriggered2),
+                                                          ),
+                                                        if (userPostsPostsRow
+                                                                .likes.isNotEmpty)
+                                                          Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              userPostsPostsRow
+                                                                  .likes.length
+                                                                  .toString(),
+                                                              '0',
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMediumFamily,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyMediumFamily),
+                                                                ),
+                                                          ).animateOnActionTrigger(
+                                                            animationsMap[
+                                                                'textOnActionTriggerAnimation']!,
+                                                          ),
+                                                        FlutterFlowIconButton(
+                                                          borderColor: Colors
+                                                              .transparent,
+                                                          borderRadius: 8.0,
+                                                          buttonSize: 40.0,
+                                                          icon: FaIcon(
+                                                            FontAwesomeIcons
+                                                                .commentAlt,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            size: 24.0,
+                                                          ),
+                                                          onPressed: () async {
+                                                            context.pushNamed(
+                                                              'ViewPost',
+                                                              queryParameters: {
+                                                                'post':
+                                                                    serializeParam(
+                                                                  userPostsPostsRow,
+                                                                  ParamType
+                                                                      .SupabaseRow,
+                                                                ),
+                                                              }.withoutNulls,
+                                                              extra: <String,
+                                                                  dynamic>{
+                                                                kTransitionInfoKey:
+                                                                    const TransitionInfo(
+                                                                  hasTransition:
+                                                                      true,
+                                                                  transitionType:
+                                                                      PageTransitionType
+                                                                          .bottomToTop,
+                                                                ),
+                                                              },
+                                                            );
+                                                          },
+                                                        ),
+                                                        if (valueOrDefault<
+                                                            bool>(
+                                                          userPostsPostsRow
+                                                                  .comments.isNotEmpty,
+                                                          true,
+                                                        ))
+                                                          Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              formatNumber(
+                                                                userPostsPostsRow
+                                                                    .comments
+                                                                    .length,
+                                                                formatType:
+                                                                    FormatType
+                                                                        .compact,
+                                                              ),
+                                                              '0',
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMediumFamily,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  useGoogleFonts: GoogleFonts
+                                                                          .asMap()
+                                                                      .containsKey(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .bodyMediumFamily),
+                                                                ),
+                                                          ),
+                                                      ].divide(
+                                                          const SizedBox(width: 4.0)),
+                                                    ),
+                                                  ].divide(
+                                                      const SizedBox(height: 8.0)),
+                                                ),
                                               ),
                                             ),
                                           ).animateOnPageLoad(animationsMap[
@@ -1397,12 +1546,13 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                   _model.options = false;
                                   safeSetState(() {});
                                   safeSetState(() {
-                                    FFAppState().clearUserPostsCache();
+                                    FFAppState().clearFeedCacheKey(
+                                        _model.requestLastUniqueKey);
                                     _model.requestCompleted = false;
                                   });
                                   await _model.waitForRequestCompleted();
                                 },
-                                text: 'Delete Forever',
+                                text: 'Confirm',
                                 options: FFButtonOptions(
                                   height: 40.0,
                                   padding: const EdgeInsetsDirectional.fromSTEB(

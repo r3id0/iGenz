@@ -203,7 +203,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                                   maxLengthEnforcement:
                                       MaxLengthEnforcement.enforced,
                                   cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                      FlutterFlowTheme.of(context).primary,
                                   validator: _model.titleTextControllerValidator
                                       .asValidator(context),
                                 ),
@@ -302,7 +302,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                                   minLines: 10,
                                   maxLength: 1024,
                                   cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                      FlutterFlowTheme.of(context).primary,
                                   validator: _model
                                       .captionTextControllerValidator
                                       .asValidator(context),

@@ -1,10 +1,10 @@
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:async';
-import 'view_post_widget.dart' show ViewPostWidget;
+import 'post_likes_widget.dart' show PostLikesWidget;
 import 'package:flutter/material.dart';
 
-class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
+class PostLikesModel extends FlutterFlowModel<PostLikesWidget> {
   ///  Local state fields for this page.
 
   String sentCommentID = ' ';

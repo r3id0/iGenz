@@ -14,9 +14,6 @@ class CommentsRow extends SupabaseDataRow {
   @override
   SupabaseTable get table => CommentsTable();
 
-  int get id => getField<int>('id')!;
-  set id(int value) => setField<int>('id', value);
-
   DateTime get createdAt => getField<DateTime>('created_at')!;
   set createdAt(DateTime value) => setField<DateTime>('created_at', value);
 
@@ -35,4 +32,10 @@ class CommentsRow extends SupabaseDataRow {
 
   String? get comment => getField<String>('comment');
   set comment(String? value) => setField<String>('comment', value);
+
+  List<String> get likes => getListField<String>('likes');
+  set likes(List<String>? value) => setListField<String>('likes', value);
+
+  String get id => getField<String>('id')!;
+  set id(String value) => setField<String>('id', value);
 }

@@ -139,35 +139,20 @@ class FFAppState extends ChangeNotifier {
         'ff_chats', _chats.map((x) => x.serialize()).toList());
   }
 
-  final _feedpostsManager = FutureRequestManager<List<PostsRow>>();
-  Future<List<PostsRow>> feedposts({
+  final _feedManager = FutureRequestManager<List<PostsRow>>();
+  Future<List<PostsRow>> feed({
     String? uniqueQueryKey,
     bool? overrideCache,
     required Future<List<PostsRow>> Function() requestFn,
   }) =>
-      _feedpostsManager.performRequest(
+      _feedManager.performRequest(
         uniqueQueryKey: uniqueQueryKey,
         overrideCache: overrideCache,
         requestFn: requestFn,
       );
-  void clearFeedpostsCache() => _feedpostsManager.clear();
-  void clearFeedpostsCacheKey(String? uniqueKey) =>
-      _feedpostsManager.clearRequest(uniqueKey);
-
-  final _userPostsManager = FutureRequestManager<List<PostsRow>>();
-  Future<List<PostsRow>> userPosts({
-    String? uniqueQueryKey,
-    bool? overrideCache,
-    required Future<List<PostsRow>> Function() requestFn,
-  }) =>
-      _userPostsManager.performRequest(
-        uniqueQueryKey: uniqueQueryKey,
-        overrideCache: overrideCache,
-        requestFn: requestFn,
-      );
-  void clearUserPostsCache() => _userPostsManager.clear();
-  void clearUserPostsCacheKey(String? uniqueKey) =>
-      _userPostsManager.clearRequest(uniqueKey);
+  void clearFeedCache() => _feedManager.clear();
+  void clearFeedCacheKey(String? uniqueKey) =>
+      _feedManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

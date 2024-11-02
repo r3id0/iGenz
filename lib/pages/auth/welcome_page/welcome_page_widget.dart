@@ -69,6 +69,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).bodyMediumFamily,
+                          color: Colors.black,
                           fontSize: 30.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
@@ -85,6 +86,7 @@ class _WelcomePageWidgetState extends State<WelcomePageWidget> {
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).bodyMediumFamily,
+                          color: Colors.black,
                           letterSpacing: 0.0,
                           useGoogleFonts: GoogleFonts.asMap().containsKey(
                               FlutterFlowTheme.of(context).bodyMediumFamily),

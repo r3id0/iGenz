@@ -122,10 +122,14 @@ class _MyChatBubbleWidgetState extends State<MyChatBubbleWidget> {
                           size: 25.0,
                         ),
                         Expanded(
-                          child: MarkdownBody(
-                            data: widget.message!.text,
-                            selectable: false,
-                            onTapLink: (_, url, __) => launchURL(url!),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 4.0, 0.0, 0.0),
+                            child: MarkdownBody(
+                              data: widget.message!.text,
+                              selectable: false,
+                              onTapLink: (_, url, __) => launchURL(url!),
+                            ),
                           ),
                         ),
                       ],
@@ -211,13 +215,17 @@ class _MyChatBubbleWidgetState extends State<MyChatBubbleWidget> {
                           ),
                         ),
                         Expanded(
-                          child: MarkdownBody(
-                            data: valueOrDefault<String>(
-                              widget.message?.text,
-                              'Thinking...',
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 4.0, 0.0, 0.0),
+                            child: MarkdownBody(
+                              data: valueOrDefault<String>(
+                                widget.message?.text,
+                                'Thinking...',
+                              ),
+                              selectable: false,
+                              onTapLink: (_, url, __) => launchURL(url!),
                             ),
-                            selectable: false,
-                            onTapLink: (_, url, __) => launchURL(url!),
                           ),
                         ),
                       ],

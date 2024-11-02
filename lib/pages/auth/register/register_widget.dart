@@ -98,6 +98,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).titleLarge.override(
                             fontFamily:
                                 FlutterFlowTheme.of(context).titleLargeFamily,
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w800,
                             useGoogleFonts: GoogleFonts.asMap().containsKey(
@@ -137,6 +138,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 .override(
                                   fontFamily: FlutterFlowTheme.of(context)
                                       .bodyMediumFamily,
+                                  color: Colors.black,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.normal,
                                   useGoogleFonts: GoogleFonts.asMap()
@@ -179,7 +181,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             .override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.black,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -194,8 +196,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primaryText,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -222,37 +224,36 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.drive_file_rename_outline_rounded,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 25.0,
                         ),
-                        suffixIcon: _model
-                                .firstNameTextController!.text.isNotEmpty
-                            ? InkWell(
-                                onTap: () async {
-                                  _model.firstNameTextController?.clear();
-                                  safeSetState(() {});
-                                },
-                                child: Icon(
-                                  Icons.clear,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 15.0,
-                                ),
-                              )
-                            : null,
+                        suffixIcon:
+                            _model.firstNameTextController!.text.isNotEmpty
+                                ? InkWell(
+                                    onTap: () async {
+                                      _model.firstNameTextController?.clear();
+                                      safeSetState(() {});
+                                    },
+                                    child: const Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                      size: 15.0,
+                                    ),
+                                  )
+                                : null,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: FlutterFlowTheme.of(context).primary,
                       validator: _model.firstNameTextControllerValidator
                           .asValidator(context),
                     ),
@@ -280,7 +281,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             .override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.black,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -295,8 +296,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primaryText,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -323,37 +324,36 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.drive_file_rename_outline_rounded,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 25.0,
                         ),
-                        suffixIcon: _model
-                                .lastNameTextController!.text.isNotEmpty
-                            ? InkWell(
-                                onTap: () async {
-                                  _model.lastNameTextController?.clear();
-                                  safeSetState(() {});
-                                },
-                                child: Icon(
-                                  Icons.clear,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 15.0,
-                                ),
-                              )
-                            : null,
+                        suffixIcon:
+                            _model.lastNameTextController!.text.isNotEmpty
+                                ? InkWell(
+                                    onTap: () async {
+                                      _model.lastNameTextController?.clear();
+                                      safeSetState(() {});
+                                    },
+                                    child: const Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                      size: 15.0,
+                                    ),
+                                  )
+                                : null,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: FlutterFlowTheme.of(context).primary,
                       validator: _model.lastNameTextControllerValidator
                           .asValidator(context),
                     ),
@@ -381,7 +381,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             .override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.black,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -396,8 +396,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primaryText,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -424,37 +424,36 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.alternate_email,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 25.0,
                         ),
-                        suffixIcon: _model
-                                .usernameTextController!.text.isNotEmpty
-                            ? InkWell(
-                                onTap: () async {
-                                  _model.usernameTextController?.clear();
-                                  safeSetState(() {});
-                                },
-                                child: Icon(
-                                  Icons.clear,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 15.0,
-                                ),
-                              )
-                            : null,
+                        suffixIcon:
+                            _model.usernameTextController!.text.isNotEmpty
+                                ? InkWell(
+                                    onTap: () async {
+                                      _model.usernameTextController?.clear();
+                                      safeSetState(() {});
+                                    },
+                                    child: const Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                      size: 15.0,
+                                    ),
+                                  )
+                                : null,
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: FlutterFlowTheme.of(context).primary,
                       validator: _model.usernameTextControllerValidator
                           .asValidator(context),
                     ),
@@ -482,7 +481,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             .override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.black,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -497,8 +496,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primaryText,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -525,8 +524,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.email_rounded,
                           color: FlutterFlowTheme.of(context).primary,
@@ -538,10 +536,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                   _model.emailTextController?.clear();
                                   safeSetState(() {});
                                 },
-                                child: Icon(
+                                child: const Icon(
                                   Icons.clear,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: Colors.black,
                                   size: 15.0,
                                 ),
                               )
@@ -549,12 +546,13 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: FlutterFlowTheme.of(context).primary,
                       validator: _model.emailTextControllerValidator
                           .asValidator(context),
                     ),
@@ -577,7 +575,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             .override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.black,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -592,8 +590,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primaryText,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -620,8 +618,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.lock,
                           color: FlutterFlowTheme.of(context).primary,
@@ -637,19 +634,20 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             _model.passwordVisibility
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
-                            color: FlutterFlowTheme.of(context).primaryText,
+                            color: Colors.black,
                             size: 15.0,
                           ),
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: FlutterFlowTheme.of(context).primary,
                       validator: _model.passwordTextControllerValidator
                           .asValidator(context),
                     ),
@@ -672,7 +670,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             .override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
-                              color: FlutterFlowTheme.of(context).primaryText,
+                              color: Colors.black,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -687,8 +685,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                       GoogleFonts.asMap().containsKey('Inter'),
                                 ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: FlutterFlowTheme.of(context).primaryText,
+                          borderSide: const BorderSide(
+                            color: Colors.black,
                             width: 1.0,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
@@ -715,8 +713,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         filled: true,
-                        fillColor:
-                            FlutterFlowTheme.of(context).secondaryBackground,
+                        fillColor: Colors.white,
                         prefixIcon: Icon(
                           Icons.lock_reset,
                           color: FlutterFlowTheme.of(context).primary,
@@ -732,19 +729,20 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                             _model.confirmPasswordVisibility
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
-                            color: FlutterFlowTheme.of(context).primaryText,
+                            color: Colors.black,
                             size: 15.0,
                           ),
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Inter',
+                            color: Colors.black,
                             letterSpacing: 0.0,
                             useGoogleFonts:
                                 GoogleFonts.asMap().containsKey('Inter'),
                           ),
                       textAlign: TextAlign.start,
-                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      cursorColor: FlutterFlowTheme.of(context).primary,
                       validator: _model.confirmPasswordTextControllerValidator
                           .asValidator(context),
                     ),
@@ -782,6 +780,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily:
                                 FlutterFlowTheme.of(context).bodyMediumFamily,
+                            color: Colors.black,
                             fontSize: 16.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.bold,
@@ -891,6 +890,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 .override(
                                   fontFamily: FlutterFlowTheme.of(context)
                                       .bodyMediumFamily,
+                                  color: Colors.black,
                                   letterSpacing: 0.0,
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)
@@ -911,6 +911,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 .override(
                                   fontFamily: FlutterFlowTheme.of(context)
                                       .bodyMediumFamily,
+                                  color: Colors.black,
                                   letterSpacing: 0.0,
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey(FlutterFlowTheme.of(context)
@@ -1041,6 +1042,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .bodyMediumFamily,
+                                    color: Colors.black,
                                     letterSpacing: 0.0,
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(
@@ -1071,6 +1073,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyMediumFamily,
+                                color: const Color(0xFF846262),
                                 letterSpacing: 0.0,
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)

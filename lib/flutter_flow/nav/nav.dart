@@ -167,6 +167,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.SupabaseRow,
             ),
           ),
+        ),
+        FFRoute(
+          name: 'postLikes',
+          path: '/postLikes',
+          builder: (context, params) => PostLikesWidget(
+            post: params.getParam<PostsRow>(
+              'post',
+              ParamType.SupabaseRow,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
