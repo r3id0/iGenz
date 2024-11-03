@@ -1,10 +1,10 @@
 import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'comment_likes_widget.dart' show CommentLikesWidget;
 import 'dart:async';
-import 'post_likes_widget.dart' show PostLikesWidget;
 import 'package:flutter/material.dart';
 
-class PostLikesModel extends FlutterFlowModel<PostLikesWidget> {
+class CommentLikesModel extends FlutterFlowModel<CommentLikesWidget> {
   ///  Local state fields for this page.
 
   String postID = ' ';
@@ -12,7 +12,7 @@ class PostLikesModel extends FlutterFlowModel<PostLikesWidget> {
   ///  State fields for stateful widgets in this page.
 
   Completer<List<UsersRow>>? requestCompleter2;
-  Completer<List<PostsRow>>? requestCompleter1;
+  Completer<List<CommentsRow>>? requestCompleter1;
 
   @override
   void initState(BuildContext context) {}

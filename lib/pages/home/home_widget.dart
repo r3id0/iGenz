@@ -312,7 +312,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                               padding: const EdgeInsetsDirectional
                                                   .fromSTEB(5.0, 0.0, 0.0, 5.0),
                                               child: Text(
-                                                '${FFAppState().currentUser.firstName} ${FFAppState().currentUser.lastName} • @${FFAppState().currentUser.username}',
+                                                '${FFAppState().currentUser.firstName} ${FFAppState().currentUser.lastName} • ${FFAppState().currentUser.username}',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -630,7 +630,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                 ),
                                                       ),
                                                       Text(
-                                                        '@${feedPostsRow.authorUsername}',
+                                                        '${feedPostsRow.authorUsername}',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -844,32 +844,65 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                   feedPostsRow.likes.isNotEmpty,
                                                   true,
                                                 ))
-                                                  Text(
-                                                    valueOrDefault<String>(
-                                                      formatNumber(
-                                                        feedPostsRow
-                                                            .likes.length,
-                                                        formatType:
-                                                            FormatType.compact,
-                                                      ),
-                                                      '0',
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily),
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      context.pushNamed(
+                                                        'postLikes',
+                                                        queryParameters: {
+                                                          'post':
+                                                              serializeParam(
+                                                            feedPostsRow,
+                                                            ParamType
+                                                                .SupabaseRow,
+                                                          ),
+                                                        }.withoutNulls,
+                                                        extra: <String,
+                                                            dynamic>{
+                                                          kTransitionInfoKey:
+                                                              const TransitionInfo(
+                                                            hasTransition: true,
+                                                            transitionType:
+                                                                PageTransitionType
+                                                                    .bottomToTop,
+                                                          ),
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      valueOrDefault<String>(
+                                                        formatNumber(
+                                                          feedPostsRow
+                                                              .likes.length,
+                                                          formatType: FormatType
+                                                              .compact,
                                                         ),
+                                                        '0',
+                                                      ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                useGoogleFonts: GoogleFonts
+                                                                        .asMap()
+                                                                    .containsKey(
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyMediumFamily),
+                                                              ),
+                                                    ),
                                                   ),
                                                 FlutterFlowIconButton(
                                                   borderRadius: 8.0,

@@ -94,7 +94,7 @@ class _MyChatBubbleWidgetState extends State<MyChatBubbleWidget> {
                       ),
                       Flexible(
                         child: Text(
-                          FFAppState().currentUser.username,
+                          FFAppState().currentUser.firstName,
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(

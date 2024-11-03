@@ -177,6 +177,16 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.SupabaseRow,
             ),
           ),
+        ),
+        FFRoute(
+          name: 'commentLikes',
+          path: '/commentLikes',
+          builder: (context, params) => CommentLikesWidget(
+            comment: params.getParam<CommentsRow>(
+              'comment',
+              ParamType.SupabaseRow,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

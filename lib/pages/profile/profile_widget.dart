@@ -257,19 +257,6 @@ class _ProfileWidgetState extends State<ProfileWidget>
           ),
         ],
       ),
-      'textOnActionTriggerAnimation': AnimationInfo(
-        trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
-        effectsBuilder: () => [
-          FadeEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 600.0.ms,
-            begin: 0.0,
-            end: 1.0,
-          ),
-        ],
-      ),
       'containerOnActionTriggerAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
         applyInitialState: true,
@@ -358,20 +345,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                             fadeOutDuration: const Duration(milliseconds: 500),
                             imageUrl: 'https://picsum.photos/seed/401/600',
                             width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: () {
-                              if (MediaQuery.sizeOf(context).width <
-                                  kBreakpointSmall) {
-                                return 200.0;
-                              } else if (MediaQuery.sizeOf(context).width <
-                                  kBreakpointMedium) {
-                                return 300.0;
-                              } else if (MediaQuery.sizeOf(context).width <
-                                  kBreakpointLarge) {
-                                return 400.0;
-                              } else {
-                                return 0.0;
-                              }
-                            }(),
+                            height: 150.0,
                             fit: BoxFit.cover,
                           ),
                         ).animateOnPageLoad(
@@ -427,7 +401,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                     ).animateOnPageLoad(
                         animationsMap['textOnPageLoadAnimation1']!),
                     Text(
-                      '@${FFAppState().currentUser.username}',
+                      FFAppState().currentUser.username,
                       style: FlutterFlowTheme.of(context).titleSmall.override(
                             fontFamily:
                                 FlutterFlowTheme.of(context).titleSmallFamily,
@@ -455,7 +429,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .bodyMediumFamily,
-                                color: FlutterFlowTheme.of(context).info,
+                                color: FlutterFlowTheme.of(context).primaryText,
                                 letterSpacing: 0.0,
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
@@ -980,6 +954,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                   'posts',
                                                                   'likes',
                                                                 );
+                                                                FFAppState()
+                                                                    .clearFeedCache();
                                                                 safeSetState(
                                                                     () {
                                                                   FFAppState()
@@ -991,9 +967,6 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                 });
                                                                 await _model
                                                                     .waitForRequestCompleted();
-                                                                FFAppState()
-                                                                    .clearFeedCacheKey(
-                                                                        currentUserUid);
                                                               },
                                                             ).animateOnActionTrigger(
                                                                     animationsMap[
@@ -1034,6 +1007,8 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                   'posts',
                                                                   'likes',
                                                                 );
+                                                                FFAppState()
+                                                                    .clearFeedCache();
                                                                 safeSetState(
                                                                     () {
                                                                   FFAppState()
@@ -1052,34 +1027,60 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                                                     hasBeenTriggered:
                                                                         hasIconButtonTriggered2),
                                                           ),
-                                                        if (userPostsPostsRow
-                                                                .likes.isNotEmpty)
-                                                          Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              userPostsPostsRow
-                                                                  .likes.length
-                                                                  .toString(),
-                                                              '0',
+                                                        if (valueOrDefault<
+                                                            bool>(
+                                                          userPostsPostsRow
+                                                                  .likes.isNotEmpty,
+                                                          true,
+                                                        ))
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              context.pushNamed(
+                                                                'postLikes',
+                                                                queryParameters:
+                                                                    {
+                                                                  'post':
+                                                                      serializeParam(
+                                                                    userPostsPostsRow,
+                                                                    ParamType
+                                                                        .SupabaseRow,
+                                                                  ),
+                                                                }.withoutNulls,
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                              formatNumber(
+                                                                userPostsPostsRow
+                                                                    .likes
+                                                                    .length,
+                                                                formatType:
+                                                                    FormatType
+                                                                        .compact,
+                                                              ),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .bodyMediumFamily,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    useGoogleFonts: GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            FlutterFlowTheme.of(context).bodyMediumFamily),
+                                                                  ),
                                                             ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  useGoogleFonts: GoogleFonts
-                                                                          .asMap()
-                                                                      .containsKey(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .bodyMediumFamily),
-                                                                ),
-                                                          ).animateOnActionTrigger(
-                                                            animationsMap[
-                                                                'textOnActionTriggerAnimation']!,
                                                           ),
                                                         FlutterFlowIconButton(
                                                           borderColor: Colors

@@ -1,6 +1,5 @@
 import '/auth/supabase_auth/auth_util.dart';
 import '/backend/supabase/supabase.dart';
-import '/components/grayloadingwidget_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -70,7 +69,7 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
         'posts',
         () async {
           safeSetState(() {
-            FFAppState().clearFeedCache();
+            FFAppState().clearFeedCacheKey(_model.requestLastUniqueKey1);
             _model.requestCompleted1 = false;
           });
           await _model.waitForRequestCompleted1();
@@ -240,6 +239,10 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
         body: FutureBuilder<List<PostsRow>>(
           future: FFAppState()
               .feed(
+            uniqueQueryKey: valueOrDefault<String>(
+              widget.post?.id,
+              'id',
+            ),
             requestFn: () => PostsTable().querySingleRow(
               queryFn: (q) => q.eq(
                 'id',
@@ -248,7 +251,13 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
             ),
           )
               .then((result) {
-            _model.requestCompleted1 = true;
+            try {
+              _model.requestCompleted1 = true;
+              _model.requestLastUniqueKey1 = valueOrDefault<String>(
+                widget.post?.id,
+                'id',
+              );
+            } finally {}
             return result;
           }),
           builder: (context, snapshot) {
@@ -298,7 +307,7 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                   Icons.arrow_back,
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
-                                  size: 24.0,
+                                  size: 30.0,
                                 ),
                               ),
                             ),
@@ -309,6 +318,7 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .headlineSmallFamily,
+                                    fontSize: 32.0,
                                     letterSpacing: 0.0,
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(
@@ -316,7 +326,7 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                 .headlineSmallFamily),
                                   ),
                             ),
-                          ],
+                          ].divide(const SizedBox(width: 0.0)),
                         ),
                         Card(
                           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -383,10 +393,10 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                 ),
                                           ),
                                           Text(
-                                            '@${valueOrDefault<String>(
+                                            valueOrDefault<String>(
                                               containerPostsRow?.authorUsername,
                                               'username',
-                                            )}',
+                                            ),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -415,8 +425,8 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     if (valueOrDefault<bool>(
-                                      widget.post?.title != null &&
-                                          widget.post?.title != '',
+                                      containerPostsRow?.title != null &&
+                                          containerPostsRow?.title != '',
                                       true,
                                     ))
                                       Align(
@@ -675,7 +685,16 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                           builder: (context, snapshot) {
                             // Customize what your widget looks like when it's loading.
                             if (!snapshot.hasData) {
-                              return const GrayloadingwidgetWidget();
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: SpinKitSquareCircle(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    size: 50.0,
+                                  ),
+                                ),
+                              );
                             }
                             List<CommentsRow> commentsCommentsRowList =
                                 snapshot.data!;
@@ -762,11 +781,11 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                               ),
                                                     ),
                                                     Text(
-                                                      '@${valueOrDefault<String>(
+                                                      valueOrDefault<String>(
                                                         commentsCommentsRow
                                                             .authorUsername,
                                                         'username',
-                                                      )}',
+                                                      ),
                                                       style:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -952,31 +971,49 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                               commentsCommentsRow.likes.isNotEmpty,
                                               true,
                                             ))
-                                              Text(
-                                                formatNumber(
-                                                  commentsCommentsRow
-                                                      .likes.length,
-                                                  formatType:
-                                                      FormatType.compact,
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  context.pushNamed(
+                                                    'commentLikes',
+                                                    queryParameters: {
+                                                      'comment': serializeParam(
+                                                        commentsCommentsRow,
+                                                        ParamType.SupabaseRow,
+                                                      ),
+                                                    }.withoutNulls,
+                                                  );
+                                                },
+                                                child: Text(
+                                                  formatNumber(
+                                                    commentsCommentsRow
+                                                        .likes.length,
+                                                    formatType:
+                                                        FormatType.compact,
+                                                  ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily),
+                                                      ),
                                                 ),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          letterSpacing: 0.0,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily),
-                                                        ),
                                               ),
-                                          ],
+                                          ].divide(const SizedBox(width: 4.0)),
                                         ),
                                       ].divide(const SizedBox(height: 8.0)),
                                     ),

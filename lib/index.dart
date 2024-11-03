@@ -13,3 +13,4 @@ export '/pages/talk_to_gemini/talk_to_gemini_widget.dart'
 export '/pages/settings_page/settings_page_widget.dart' show SettingsPageWidget;
 export '/pages/view_post/view_post_widget.dart' show ViewPostWidget;
 export '/pages/post_likes/post_likes_widget.dart' show PostLikesWidget;
+export '/pages/comment_likes/comment_likes_widget.dart' show CommentLikesWidget;
