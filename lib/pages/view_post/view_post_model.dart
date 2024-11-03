@@ -12,9 +12,8 @@ class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  Completer<List<CommentsRow>>? requestCompleter2;
-  bool requestCompleted1 = false;
-  String? requestLastUniqueKey1;
+  Completer<List<CommentsRow>>? requestCompleter1;
+  Completer<List<PostsRow>>? requestCompleter2;
   // State field(s) for comment widget.
   FocusNode? commentFocusNode;
   TextEditingController? commentTextController;
@@ -42,6 +41,21 @@ class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
   }
 
   /// Additional helper methods.
+  Future waitForRequestCompleted1({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = requestCompleter1?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
   Future waitForRequestCompleted2({
     double minWait = 0,
     double maxWait = double.infinity,
@@ -51,21 +65,6 @@ class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
       await Future.delayed(const Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
       final requestComplete = requestCompleter2?.isCompleted ?? false;
-      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
-        break;
-      }
-    }
-  }
-
-  Future waitForRequestCompleted1({
-    double minWait = 0,
-    double maxWait = double.infinity,
-  }) async {
-    final stopwatch = Stopwatch()..start();
-    while (true) {
-      await Future.delayed(const Duration(milliseconds: 50));
-      final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = requestCompleted1;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

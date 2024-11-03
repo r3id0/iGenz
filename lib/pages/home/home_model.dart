@@ -9,8 +9,9 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   // Stores action output result for [Backend Call - Query Rows] action in Home widget.
   List<UsersRow>? queryUser;
-  bool requestCompleted = false;
-  String? requestLastUniqueKey;
+  bool requestCompleted1 = false;
+  String? requestLastUniqueKey1;
+  Completer<List<UsersRow>>? requestCompleter2;
 
   @override
   void initState(BuildContext context) {}
@@ -19,7 +20,7 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
   void dispose() {}
 
   /// Additional helper methods.
-  Future waitForRequestCompleted({
+  Future waitForRequestCompleted1({
     double minWait = 0,
     double maxWait = double.infinity,
   }) async {
@@ -27,7 +28,22 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = requestCompleted;
+      final requestComplete = requestCompleted1;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  Future waitForRequestCompleted2({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = requestCompleter2?.isCompleted ?? false;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

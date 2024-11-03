@@ -12,11 +12,13 @@ class UserStruct extends BaseStruct {
     String? username,
     int? age,
     String? id,
+    String? userProfilePhoto,
   })  : _firstName = firstName,
         _lastName = lastName,
         _username = username,
         _age = age,
-        _id = id;
+        _id = id,
+        _userProfilePhoto = userProfilePhoto;
 
   // "first_name" field.
   String? _firstName;
@@ -55,12 +57,20 @@ class UserStruct extends BaseStruct {
 
   bool hasId() => _id != null;
 
+  // "userProfilePhoto" field.
+  String? _userProfilePhoto;
+  String get userProfilePhoto => _userProfilePhoto ?? '';
+  set userProfilePhoto(String? val) => _userProfilePhoto = val;
+
+  bool hasUserProfilePhoto() => _userProfilePhoto != null;
+
   static UserStruct fromMap(Map<String, dynamic> data) => UserStruct(
         firstName: data['first_name'] as String?,
         lastName: data['last_name'] as String?,
         username: data['username'] as String?,
         age: castToType<int>(data['age']),
         id: data['id'] as String?,
+        userProfilePhoto: data['userProfilePhoto'] as String?,
       );
 
   static UserStruct? maybeFromMap(dynamic data) =>
@@ -72,6 +82,7 @@ class UserStruct extends BaseStruct {
         'username': _username,
         'age': _age,
         'id': _id,
+        'userProfilePhoto': _userProfilePhoto,
       }.withoutNulls;
 
   @override
@@ -94,6 +105,10 @@ class UserStruct extends BaseStruct {
         ),
         'id': serializeParam(
           _id,
+          ParamType.String,
+        ),
+        'userProfilePhoto': serializeParam(
+          _userProfilePhoto,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -125,6 +140,11 @@ class UserStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        userProfilePhoto: deserializeParam(
+          data['userProfilePhoto'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -137,12 +157,13 @@ class UserStruct extends BaseStruct {
         lastName == other.lastName &&
         username == other.username &&
         age == other.age &&
-        id == other.id;
+        id == other.id &&
+        userProfilePhoto == other.userProfilePhoto;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([firstName, lastName, username, age, id]);
+  int get hashCode => const ListEquality()
+      .hash([firstName, lastName, username, age, id, userProfilePhoto]);
 }
 
 UserStruct createUserStruct({
@@ -151,6 +172,7 @@ UserStruct createUserStruct({
   String? username,
   int? age,
   String? id,
+  String? userProfilePhoto,
 }) =>
     UserStruct(
       firstName: firstName,
@@ -158,4 +180,5 @@ UserStruct createUserStruct({
       username: username,
       age: age,
       id: id,
+      userProfilePhoto: userProfilePhoto,
     );

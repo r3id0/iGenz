@@ -1,6 +1,7 @@
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -87,8 +88,10 @@ class _MyChatBubbleWidgetState extends State<MyChatBubbleWidget> {
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: Image.network(
-                          'https://picsum.photos/seed/913/600',
+                        child: CachedNetworkImage(
+                          fadeInDuration: const Duration(milliseconds: 500),
+                          fadeOutDuration: const Duration(milliseconds: 500),
+                          imageUrl: FFAppState().currentUser.userProfilePhoto,
                           fit: BoxFit.cover,
                         ),
                       ),

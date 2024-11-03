@@ -786,178 +786,203 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                if ((_model.passwordTextController.text != '') &&
-                    (_model.passwordTextController.text !=
-                        _model.confirmPasswordTextController.text))
-                  Align(
-                    alignment: const AlignmentDirectional(-1.0, 0.0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 8.0),
-                      child: Text(
-                        'passwords do not match!',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily:
-                                  FlutterFlowTheme.of(context).bodyMediumFamily,
-                              color: FlutterFlowTheme.of(context).error,
-                              letterSpacing: 0.0,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily),
+                      if ((_model.passwordTextController.text != '') &&
+                          (_model.passwordTextController.text !=
+                              _model.confirmPasswordTextController.text))
+                        Align(
+                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                16.0, 0.0, 0.0, 8.0),
+                            child: Text(
+                              'passwords do not match!',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily,
+                                    color: FlutterFlowTheme.of(context).error,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyMediumFamily),
+                                  ),
                             ),
-                      ),
-                    ),
-                  ),
-                Align(
-                  alignment: const AlignmentDirectional(-1.0, 0.0),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
-                    child: Text(
-                      'Birthdate',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily:
-                                FlutterFlowTheme.of(context).bodyMediumFamily,
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                FlutterFlowTheme.of(context).bodyMediumFamily),
                           ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            final datePickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: getCurrentTimestamp,
-                              firstDate: (DateTime.fromMicrosecondsSinceEpoch(
-                                      631123200000000) ??
-                                  DateTime(1900)),
-                              lastDate: (getCurrentTimestamp ?? DateTime(2050)),
-                              builder: (context, child) {
-                                return wrapInMaterialDatePickerTheme(
-                                  context,
-                                  child!,
-                                  headerBackgroundColor:
-                                      FlutterFlowTheme.of(context).primary,
-                                  headerForegroundColor:
-                                      FlutterFlowTheme.of(context).info,
-                                  headerTextStyle: FlutterFlowTheme.of(context)
-                                      .headlineLarge
+                        ),
+                      Align(
+                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 0.0, 0.0),
+                          child: Text(
+                            'Birthdate',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .bodyMediumFamily,
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.bold,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .bodyMediumFamily),
+                                ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            16.0, 0.0, 16.0, 0.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  final datePickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate:
+                                        DateTime.fromMicrosecondsSinceEpoch(
+                                            1325347200000000),
+                                    firstDate:
+                                        (DateTime.fromMicrosecondsSinceEpoch(
+                                                788889600000000) ??
+                                            DateTime(1900)),
+                                    lastDate:
+                                        (DateTime.fromMicrosecondsSinceEpoch(
+                                                1356883200000000) ??
+                                            DateTime(2050)),
+                                    builder: (context, child) {
+                                      return wrapInMaterialDatePickerTheme(
+                                        context,
+                                        child!,
+                                        headerBackgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                        headerForegroundColor:
+                                            FlutterFlowTheme.of(context).info,
+                                        headerTextStyle: FlutterFlowTheme.of(
+                                                context)
+                                            .headlineLarge
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .headlineLargeFamily,
+                                              fontSize: 32.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w600,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .headlineLargeFamily),
+                                            ),
+                                        pickerBackgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                        pickerForegroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        selectedDateTimeBackgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                        selectedDateTimeForegroundColor:
+                                            Colors.white,
+                                        actionButtonForegroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        iconSize: 24.0,
+                                      );
+                                    },
+                                  );
+
+                                  if (datePickedDate != null) {
+                                    safeSetState(() {
+                                      _model.datePicked = DateTime(
+                                        datePickedDate.year,
+                                        datePickedDate.month,
+                                        datePickedDate.day,
+                                      );
+                                    });
+                                  }
+                                },
+                                text: 'Set',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
                                       .override(
                                         fontFamily: FlutterFlowTheme.of(context)
-                                            .headlineLargeFamily,
-                                        fontSize: 32.0,
+                                            .titleSmallFamily,
+                                        color: Colors.white,
                                         letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w600,
                                         useGoogleFonts: GoogleFonts.asMap()
                                             .containsKey(
                                                 FlutterFlowTheme.of(context)
-                                                    .headlineLargeFamily),
+                                                    .titleSmallFamily),
                                       ),
-                                  pickerBackgroundColor:
-                                      FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                  pickerForegroundColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  selectedDateTimeBackgroundColor:
-                                      FlutterFlowTheme.of(context).primary,
-                                  selectedDateTimeForegroundColor: Colors.white,
-                                  actionButtonForegroundColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  iconSize: 24.0,
-                                );
-                              },
-                            );
-
-                            if (datePickedDate != null) {
-                              safeSetState(() {
-                                _model.datePicked = DateTime(
-                                  datePickedDate.year,
-                                  datePickedDate.month,
-                                  datePickedDate.day,
-                                );
-                              });
-                            }
-                          },
-                          text: 'Set',
-                          options: FFButtonOptions(
-                            height: 40.0,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: Colors.white,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .titleSmallFamily,
-                                  color: Colors.black,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .titleSmallFamily),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                            elevation: 0.0,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
-                          child: Text(
-                            dateTimeFormat("yMMMd", _model.datePicked),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily,
-                                  color: Colors.black,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                child: Text(
+                                  dateTimeFormat("yMMMd", _model.datePicked),
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyMediumFamily,
+                                        color: Colors.black,
+                                        letterSpacing: 0.0,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily),
+                                      ),
                                 ),
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        child: Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
-                          child: Text(
-                            _model.datePicked == null
-                                ? 'Age: '
-                                : 'Age: ${functions.calculateUserAge(_model.datePicked!).toString()}',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily,
-                                  color: Colors.black,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily),
+                              ),
+                            ),
+                            Flexible(
+                              child: Align(
+                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                child: Text(
+                                  _model.datePicked == null
+                                      ? 'Age: '
+                                      : 'Age: ${functions.calculateUserAge(_model.datePicked!).toString()}',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyMediumFamily,
+                                        color: Colors.black,
+                                        letterSpacing: 0.0,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily),
+                                      ),
                                 ),
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -978,6 +1003,9 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           : () async {
                               if (_model.formKey.currentState == null ||
                                   !_model.formKey.currentState!.validate()) {
+                                return;
+                              }
+                              if (_model.datePicked == null) {
                                 return;
                               }
                               FFAppState().currentUser = UserStruct(
@@ -1023,6 +1051,8 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                 'email': _model.emailTextController.text,
                                 'age': functions
                                     .calculateUserAge(_model.datePicked!),
+                                'birth_date':
+                                    supaSerialize<DateTime>(_model.datePicked),
                               });
 
                               context.goNamedAuth(

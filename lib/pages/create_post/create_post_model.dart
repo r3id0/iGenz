@@ -3,6 +3,17 @@ import 'create_post_widget.dart' show CreatePostWidget;
 import 'package:flutter/material.dart';
 
 class CreatePostModel extends FlutterFlowModel<CreatePostWidget> {
+  ///  Local state fields for this page.
+
+  List<FFUploadedFile> images = [];
+  void addToImages(FFUploadedFile item) => images.add(item);
+  void removeFromImages(FFUploadedFile item) => images.remove(item);
+  void removeAtIndexFromImages(int index) => images.removeAt(index);
+  void insertAtIndexInImages(int index, FFUploadedFile item) =>
+      images.insert(index, item);
+  void updateImagesAtIndex(int index, Function(FFUploadedFile) updateFn) =>
+      images[index] = updateFn(images[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();

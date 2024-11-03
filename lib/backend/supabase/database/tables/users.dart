@@ -34,4 +34,16 @@ class UsersRow extends SupabaseDataRow {
 
   int? get age => getField<int>('age');
   set age(int? value) => setField<int>('age', value);
+
+  String get profilePhoto => getField<String>('profile_photo')!;
+  set profilePhoto(String value) => setField<String>('profile_photo', value);
+
+  String get coverPhoto => getField<String>('cover_photo')!;
+  set coverPhoto(String value) => setField<String>('cover_photo', value);
+
+  DateTime? get birthDate => getField<DateTime>('birth_date');
+  set birthDate(DateTime? value) => setField<DateTime>('birth_date', value);
+
+  String? get contactNumber => getField<String>('contact_number');
+  set contactNumber(String? value) => setField<String>('contact_number', value);
 }

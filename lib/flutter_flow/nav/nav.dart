@@ -85,109 +85,125 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/',
           builder: (context, _) =>
               appStateNotifier.loggedIn ? const NavBarPage() : const WelcomePageWidget(),
-        ),
-        FFRoute(
-          name: 'WelcomePage',
-          path: '/welcomePage',
-          builder: (context, params) => const WelcomePageWidget(),
-        ),
-        FFRoute(
-          name: 'LogIn',
-          path: '/logIn',
-          builder: (context, params) => const LogInWidget(),
-        ),
-        FFRoute(
-          name: 'Register',
-          path: '/register',
-          builder: (context, params) => RegisterWidget(
-            userAge: params.getParam(
-              'userAge',
-              ParamType.String,
+          routes: [
+            FFRoute(
+              name: 'WelcomePage',
+              path: 'welcomePage',
+              builder: (context, params) => const WelcomePageWidget(),
             ),
-          ),
-        ),
-        FFRoute(
-          name: 'Home',
-          path: '/home',
-          requireAuth: true,
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'Home')
-              : const NavBarPage(
-                  initialPage: 'Home',
-                  page: HomeWidget(),
+            FFRoute(
+              name: 'LogIn',
+              path: 'logIn',
+              builder: (context, params) => const LogInWidget(),
+            ),
+            FFRoute(
+              name: 'Register',
+              path: 'register',
+              builder: (context, params) => RegisterWidget(
+                userAge: params.getParam(
+                  'userAge',
+                  ParamType.String,
                 ),
-        ),
-        FFRoute(
-          name: 'Profile',
-          path: '/profile',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'Profile')
-              : const ProfileWidget(),
-        ),
-        FFRoute(
-          name: 'CreatePost',
-          path: '/createPost',
-          builder: (context, params) => const CreatePostWidget(),
-        ),
-        FFRoute(
-          name: 'Search',
-          path: '/search',
-          builder: (context, params) => const SearchWidget(),
-        ),
-        FFRoute(
-          name: 'EditPost',
-          path: '/editPost',
-          builder: (context, params) => EditPostWidget(
-            selectedPost: params.getParam<PostsRow>(
-              'selectedPost',
-              ParamType.SupabaseRow,
+              ),
             ),
-          ),
-        ),
-        FFRoute(
-          name: 'TalkToGemini',
-          path: '/talkToGemini',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'TalkToGemini')
-              : const TalkToGeminiWidget(),
-        ),
-        FFRoute(
-          name: 'SettingsPage',
-          path: '/settingsPage',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'SettingsPage')
-              : const SettingsPageWidget(),
-        ),
-        FFRoute(
-          name: 'ViewPost',
-          path: '/viewPost',
-          builder: (context, params) => ViewPostWidget(
-            post: params.getParam<PostsRow>(
-              'post',
-              ParamType.SupabaseRow,
+            FFRoute(
+              name: 'Home',
+              path: 'home',
+              requireAuth: true,
+              builder: (context, params) => params.isEmpty
+                  ? const NavBarPage(initialPage: 'Home')
+                  : const NavBarPage(
+                      initialPage: 'Home',
+                      page: HomeWidget(),
+                    ),
             ),
-          ),
-        ),
-        FFRoute(
-          name: 'postLikes',
-          path: '/postLikes',
-          builder: (context, params) => PostLikesWidget(
-            post: params.getParam<PostsRow>(
-              'post',
-              ParamType.SupabaseRow,
+            FFRoute(
+              name: 'Profile',
+              path: 'profile',
+              builder: (context, params) => params.isEmpty
+                  ? const NavBarPage(initialPage: 'Profile')
+                  : const ProfileWidget(),
             ),
-          ),
-        ),
-        FFRoute(
-          name: 'commentLikes',
-          path: '/commentLikes',
-          builder: (context, params) => CommentLikesWidget(
-            comment: params.getParam<CommentsRow>(
-              'comment',
-              ParamType.SupabaseRow,
+            FFRoute(
+              name: 'CreatePost',
+              path: 'createPost',
+              builder: (context, params) => const CreatePostWidget(),
             ),
-          ),
-        )
+            FFRoute(
+              name: 'Search',
+              path: 'search',
+              builder: (context, params) => const SearchWidget(),
+            ),
+            FFRoute(
+              name: 'EditPost',
+              path: 'editPost',
+              builder: (context, params) => EditPostWidget(
+                selectedPost: params.getParam<PostsRow>(
+                  'selectedPost',
+                  ParamType.SupabaseRow,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'TalkToGemini',
+              path: 'talkToGemini',
+              builder: (context, params) => params.isEmpty
+                  ? const NavBarPage(initialPage: 'TalkToGemini')
+                  : const TalkToGeminiWidget(),
+            ),
+            FFRoute(
+              name: 'SettingsPage',
+              path: 'settingsPage',
+              builder: (context, params) => params.isEmpty
+                  ? const NavBarPage(initialPage: 'SettingsPage')
+                  : const SettingsPageWidget(),
+            ),
+            FFRoute(
+              name: 'ViewPost',
+              path: 'viewPost',
+              builder: (context, params) => ViewPostWidget(
+                post: params.getParam<PostsRow>(
+                  'post',
+                  ParamType.SupabaseRow,
+                ),
+                postAuthorPhoto: params.getParam(
+                  'postAuthorPhoto',
+                  ParamType.String,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'postLikes',
+              path: 'postLikes',
+              builder: (context, params) => PostLikesWidget(
+                post: params.getParam<PostsRow>(
+                  'post',
+                  ParamType.SupabaseRow,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'commentLikes',
+              path: 'commentLikes',
+              builder: (context, params) => CommentLikesWidget(
+                comment: params.getParam<CommentsRow>(
+                  'comment',
+                  ParamType.SupabaseRow,
+                ),
+              ),
+            ),
+            FFRoute(
+              name: 'PublicProfile',
+              path: 'publicprofile',
+              builder: (context, params) => PublicProfileWidget(
+                user: params.getParam<UsersRow>(
+                  'user',
+                  ParamType.SupabaseRow,
+                ),
+              ),
+            )
+          ].map((r) => r.toRoute(appStateNotifier)).toList(),
+        ),
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 

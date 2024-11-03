@@ -153,6 +153,21 @@ class FFAppState extends ChangeNotifier {
   void clearFeedCache() => _feedManager.clear();
   void clearFeedCacheKey(String? uniqueKey) =>
       _feedManager.clearRequest(uniqueKey);
+
+  final _selectedUserPostsManager = FutureRequestManager<List<PostsRow>>();
+  Future<List<PostsRow>> selectedUserPosts({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<List<PostsRow>> Function() requestFn,
+  }) =>
+      _selectedUserPostsManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearSelectedUserPostsCache() => _selectedUserPostsManager.clear();
+  void clearSelectedUserPostsCacheKey(String? uniqueKey) =>
+      _selectedUserPostsManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

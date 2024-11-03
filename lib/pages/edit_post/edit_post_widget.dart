@@ -299,7 +299,7 @@ class _EditPostWidgetState extends State<EditPostWidget> {
                                                     .titleMediumFamily),
                                       ),
                                   maxLines: 50,
-                                  minLines: 10,
+                                  minLines: 5,
                                   maxLength: 1024,
                                   cursorColor:
                                       FlutterFlowTheme.of(context).primary,

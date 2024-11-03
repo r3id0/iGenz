@@ -23,8 +23,8 @@ class PostsRow extends SupabaseDataRow {
   String? get caption => getField<String>('caption');
   set caption(String? value) => setField<String>('caption', value);
 
-  String? get user => getField<String>('user');
-  set user(String? value) => setField<String>('user', value);
+  String? get authorID => getField<String>('authorID');
+  set authorID(String? value) => setField<String>('authorID', value);
 
   String? get author => getField<String>('author');
   set author(String? value) => setField<String>('author', value);
