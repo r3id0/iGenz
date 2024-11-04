@@ -865,8 +865,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                                         headerBackgroundColor:
                                             FlutterFlowTheme.of(context)
                                                 .primary,
-                                        headerForegroundColor:
-                                            FlutterFlowTheme.of(context).info,
+                                        headerForegroundColor: Colors.white,
                                         headerTextStyle: FlutterFlowTheme.of(
                                                 context)
                                             .headlineLarge

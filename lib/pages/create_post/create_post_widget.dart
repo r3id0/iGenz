@@ -326,6 +326,7 @@ class _CreatePostWidgetState extends State<CreatePostWidget> {
                             'likes': [],
                             'comments': [],
                           });
+                          FFAppState().clearFeedCache();
                           context.safePop();
                         },
                         text: 'POST',

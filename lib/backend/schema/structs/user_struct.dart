@@ -13,12 +13,20 @@ class UserStruct extends BaseStruct {
     int? age,
     String? id,
     String? userProfilePhoto,
+    String? bio,
+    DateTime? birthdate,
+    String? email,
+    String? contactNumber,
   })  : _firstName = firstName,
         _lastName = lastName,
         _username = username,
         _age = age,
         _id = id,
-        _userProfilePhoto = userProfilePhoto;
+        _userProfilePhoto = userProfilePhoto,
+        _bio = bio,
+        _birthdate = birthdate,
+        _email = email,
+        _contactNumber = contactNumber;
 
   // "first_name" field.
   String? _firstName;
@@ -64,6 +72,34 @@ class UserStruct extends BaseStruct {
 
   bool hasUserProfilePhoto() => _userProfilePhoto != null;
 
+  // "bio" field.
+  String? _bio;
+  String get bio => _bio ?? '';
+  set bio(String? val) => _bio = val;
+
+  bool hasBio() => _bio != null;
+
+  // "birthdate" field.
+  DateTime? _birthdate;
+  DateTime? get birthdate => _birthdate;
+  set birthdate(DateTime? val) => _birthdate = val;
+
+  bool hasBirthdate() => _birthdate != null;
+
+  // "email" field.
+  String? _email;
+  String get email => _email ?? '';
+  set email(String? val) => _email = val;
+
+  bool hasEmail() => _email != null;
+
+  // "contact_number" field.
+  String? _contactNumber;
+  String get contactNumber => _contactNumber ?? '';
+  set contactNumber(String? val) => _contactNumber = val;
+
+  bool hasContactNumber() => _contactNumber != null;
+
   static UserStruct fromMap(Map<String, dynamic> data) => UserStruct(
         firstName: data['first_name'] as String?,
         lastName: data['last_name'] as String?,
@@ -71,6 +107,10 @@ class UserStruct extends BaseStruct {
         age: castToType<int>(data['age']),
         id: data['id'] as String?,
         userProfilePhoto: data['userProfilePhoto'] as String?,
+        bio: data['bio'] as String?,
+        birthdate: data['birthdate'] as DateTime?,
+        email: data['email'] as String?,
+        contactNumber: data['contact_number'] as String?,
       );
 
   static UserStruct? maybeFromMap(dynamic data) =>
@@ -83,6 +123,10 @@ class UserStruct extends BaseStruct {
         'age': _age,
         'id': _id,
         'userProfilePhoto': _userProfilePhoto,
+        'bio': _bio,
+        'birthdate': _birthdate,
+        'email': _email,
+        'contact_number': _contactNumber,
       }.withoutNulls;
 
   @override
@@ -109,6 +153,22 @@ class UserStruct extends BaseStruct {
         ),
         'userProfilePhoto': serializeParam(
           _userProfilePhoto,
+          ParamType.String,
+        ),
+        'bio': serializeParam(
+          _bio,
+          ParamType.String,
+        ),
+        'birthdate': serializeParam(
+          _birthdate,
+          ParamType.DateTime,
+        ),
+        'email': serializeParam(
+          _email,
+          ParamType.String,
+        ),
+        'contact_number': serializeParam(
+          _contactNumber,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -145,6 +205,26 @@ class UserStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        bio: deserializeParam(
+          data['bio'],
+          ParamType.String,
+          false,
+        ),
+        birthdate: deserializeParam(
+          data['birthdate'],
+          ParamType.DateTime,
+          false,
+        ),
+        email: deserializeParam(
+          data['email'],
+          ParamType.String,
+          false,
+        ),
+        contactNumber: deserializeParam(
+          data['contact_number'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -158,12 +238,26 @@ class UserStruct extends BaseStruct {
         username == other.username &&
         age == other.age &&
         id == other.id &&
-        userProfilePhoto == other.userProfilePhoto;
+        userProfilePhoto == other.userProfilePhoto &&
+        bio == other.bio &&
+        birthdate == other.birthdate &&
+        email == other.email &&
+        contactNumber == other.contactNumber;
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([firstName, lastName, username, age, id, userProfilePhoto]);
+  int get hashCode => const ListEquality().hash([
+        firstName,
+        lastName,
+        username,
+        age,
+        id,
+        userProfilePhoto,
+        bio,
+        birthdate,
+        email,
+        contactNumber
+      ]);
 }
 
 UserStruct createUserStruct({
@@ -173,6 +267,10 @@ UserStruct createUserStruct({
   int? age,
   String? id,
   String? userProfilePhoto,
+  String? bio,
+  DateTime? birthdate,
+  String? email,
+  String? contactNumber,
 }) =>
     UserStruct(
       firstName: firstName,
@@ -181,4 +279,8 @@ UserStruct createUserStruct({
       age: age,
       id: id,
       userProfilePhoto: userProfilePhoto,
+      bio: bio,
+      birthdate: birthdate,
+      email: email,
+      contactNumber: contactNumber,
     );

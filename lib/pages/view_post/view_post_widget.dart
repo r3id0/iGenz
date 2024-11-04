@@ -8,7 +8,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -62,7 +61,10 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
       await actions.subscribe(
         'comments',
         () async {
-          safeSetState(() => _model.requestCompleter1 = null);
+          safeSetState(() {
+            FFAppState().clearCommentsCacheKey(_model.requestLastUniqueKey1);
+            _model.requestCompleted1 = false;
+          });
           await _model.waitForRequestCompleted1();
           FFAppState().clearFeedCache();
         },
@@ -70,7 +72,10 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
       await actions.subscribe(
         'posts',
         () async {
-          safeSetState(() => _model.requestCompleter2 = null);
+          safeSetState(() {
+            FFAppState().clearFeedCacheKey(_model.requestLastUniqueKey2);
+            _model.requestCompleted2 = false;
+          });
           await _model.waitForRequestCompleted2();
           FFAppState().clearFeedCache();
         },
@@ -212,14 +217,29 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
     context.watch<FFAppState>();
 
     return FutureBuilder<List<PostsRow>>(
-      future: (_model.requestCompleter2 ??= Completer<List<PostsRow>>()
-            ..complete(PostsTable().querySingleRow(
-              queryFn: (q) => q.eq(
-                'id',
-                widget.post?.id,
-              ),
-            )))
-          .future,
+      future: FFAppState()
+          .feed(
+        uniqueQueryKey: valueOrDefault<String>(
+          widget.post?.id,
+          'id',
+        ),
+        requestFn: () => PostsTable().querySingleRow(
+          queryFn: (q) => q.eq(
+            'id',
+            widget.post?.id,
+          ),
+        ),
+      )
+          .then((result) {
+        try {
+          _model.requestCompleted2 = true;
+          _model.requestLastUniqueKey2 = valueOrDefault<String>(
+            widget.post?.id,
+            'id',
+          );
+        } finally {}
+        return result;
+      }),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -515,6 +535,15 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                 'posts',
                                                 'likes',
                                               );
+                                              safeSetState(() {
+                                                FFAppState().clearFeedCacheKey(
+                                                    _model
+                                                        .requestLastUniqueKey2);
+                                                _model.requestCompleted2 =
+                                                    false;
+                                              });
+                                              await _model
+                                                  .waitForRequestCompleted2();
                                               FFAppState().clearFeedCache();
                                             },
                                           ).animateOnActionTrigger(
@@ -547,6 +576,16 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                 'posts',
                                                 'likes',
                                               );
+                                              safeSetState(() {
+                                                FFAppState().clearFeedCacheKey(
+                                                    _model
+                                                        .requestLastUniqueKey2);
+                                                _model.requestCompleted2 =
+                                                    false;
+                                              });
+                                              await _model
+                                                  .waitForRequestCompleted2();
+                                              FFAppState().clearFeedCache();
                                             },
                                           ).animateOnActionTrigger(
                                               animationsMap[
@@ -689,17 +728,32 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                             ),
                           ),
                           FutureBuilder<List<CommentsRow>>(
-                            future: (_model.requestCompleter1 ??=
-                                    Completer<List<CommentsRow>>()
-                                      ..complete(CommentsTable().queryRows(
-                                        queryFn: (q) => q
-                                            .eq(
-                                              'postID',
-                                              widget.post?.id,
-                                            )
-                                            .order('created_at'),
-                                      )))
-                                .future,
+                            future: FFAppState()
+                                .comments(
+                              uniqueQueryKey: valueOrDefault<String>(
+                                widget.post?.id,
+                                'id',
+                              ),
+                              requestFn: () => CommentsTable().queryRows(
+                                queryFn: (q) => q
+                                    .eq(
+                                      'postID',
+                                      widget.post?.id,
+                                    )
+                                    .order('created_at'),
+                              ),
+                            )
+                                .then((result) {
+                              try {
+                                _model.requestCompleted1 = true;
+                                _model.requestLastUniqueKey1 =
+                                    valueOrDefault<String>(
+                                  widget.post?.id,
+                                  'id',
+                                );
+                              } finally {}
+                              return result;
+                            }),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
@@ -728,10 +782,15 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                   final commentsCommentsRow =
                                       commentsCommentsRowList[commentsIndex];
                                   return FutureBuilder<List<UsersRow>>(
-                                    future: UsersTable().querySingleRow(
-                                      queryFn: (q) => q.eq(
-                                        'id',
-                                        commentsCommentsRow.authorID,
+                                    future: FFAppState().users(
+                                      uniqueQueryKey:
+                                          commentsCommentsRow.authorID,
+                                      requestFn: () =>
+                                          UsersTable().querySingleRow(
+                                        queryFn: (q) => q.eq(
+                                          'id',
+                                          commentsCommentsRow.authorID,
+                                        ),
                                       ),
                                     ),
                                     builder: (context, snapshot) {
@@ -916,6 +975,26 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                               'posts',
                                                               'comments',
                                                             );
+                                                            safeSetState(() {
+                                                              FFAppState()
+                                                                  .clearCommentsCacheKey(
+                                                                      _model
+                                                                          .requestLastUniqueKey1);
+                                                              _model.requestCompleted1 =
+                                                                  false;
+                                                            });
+                                                            await _model
+                                                                .waitForRequestCompleted1();
+                                                            safeSetState(() {
+                                                              FFAppState()
+                                                                  .clearFeedCacheKey(
+                                                                      _model
+                                                                          .requestLastUniqueKey2);
+                                                              _model.requestCompleted2 =
+                                                                  false;
+                                                            });
+                                                            await _model
+                                                                .waitForRequestCompleted2();
                                                           },
                                                         ),
                                                       ),
@@ -1008,9 +1087,14 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                             'comments',
                                                             'likes',
                                                           );
-                                                          safeSetState(() =>
-                                                              _model.requestCompleter1 =
-                                                                  null);
+                                                          safeSetState(() {
+                                                            FFAppState()
+                                                                .clearCommentsCacheKey(
+                                                                    _model
+                                                                        .requestLastUniqueKey1);
+                                                            _model.requestCompleted1 =
+                                                                false;
+                                                          });
                                                           await _model
                                                               .waitForRequestCompleted1();
                                                         },
@@ -1051,9 +1135,14 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                                             'comments',
                                                             'likes',
                                                           );
-                                                          safeSetState(() =>
-                                                              _model.requestCompleter1 =
-                                                                  null);
+                                                          safeSetState(() {
+                                                            FFAppState()
+                                                                .clearCommentsCacheKey(
+                                                                    _model
+                                                                        .requestLastUniqueKey1);
+                                                            _model.requestCompleted1 =
+                                                                false;
+                                                          });
                                                           await _model
                                                               .waitForRequestCompleted1();
                                                         },
@@ -1283,6 +1372,18 @@ class _ViewPostWidgetState extends State<ViewPostWidget>
                                   safeSetState(() {
                                     _model.commentTextController?.clear();
                                   });
+                                  safeSetState(() {
+                                    FFAppState().clearCommentsCacheKey(
+                                        _model.requestLastUniqueKey1);
+                                    _model.requestCompleted1 = false;
+                                  });
+                                  await _model.waitForRequestCompleted1();
+                                  safeSetState(() {
+                                    FFAppState().clearFeedCacheKey(
+                                        _model.requestLastUniqueKey2);
+                                    _model.requestCompleted2 = false;
+                                  });
+                                  await _model.waitForRequestCompleted2();
 
                                   safeSetState(() {});
                                 },

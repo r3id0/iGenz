@@ -154,20 +154,35 @@ class FFAppState extends ChangeNotifier {
   void clearFeedCacheKey(String? uniqueKey) =>
       _feedManager.clearRequest(uniqueKey);
 
-  final _selectedUserPostsManager = FutureRequestManager<List<PostsRow>>();
-  Future<List<PostsRow>> selectedUserPosts({
+  final _commentsManager = FutureRequestManager<List<CommentsRow>>();
+  Future<List<CommentsRow>> comments({
     String? uniqueQueryKey,
     bool? overrideCache,
-    required Future<List<PostsRow>> Function() requestFn,
+    required Future<List<CommentsRow>> Function() requestFn,
   }) =>
-      _selectedUserPostsManager.performRequest(
+      _commentsManager.performRequest(
         uniqueQueryKey: uniqueQueryKey,
         overrideCache: overrideCache,
         requestFn: requestFn,
       );
-  void clearSelectedUserPostsCache() => _selectedUserPostsManager.clear();
-  void clearSelectedUserPostsCacheKey(String? uniqueKey) =>
-      _selectedUserPostsManager.clearRequest(uniqueKey);
+  void clearCommentsCache() => _commentsManager.clear();
+  void clearCommentsCacheKey(String? uniqueKey) =>
+      _commentsManager.clearRequest(uniqueKey);
+
+  final _usersManager = FutureRequestManager<List<UsersRow>>();
+  Future<List<UsersRow>> users({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<List<UsersRow>> Function() requestFn,
+  }) =>
+      _usersManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearUsersCache() => _usersManager.clear();
+  void clearUsersCacheKey(String? uniqueKey) =>
+      _usersManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

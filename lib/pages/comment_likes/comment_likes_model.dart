@@ -12,7 +12,8 @@ class CommentLikesModel extends FlutterFlowModel<CommentLikesWidget> {
   ///  State fields for stateful widgets in this page.
 
   Completer<List<UsersRow>>? requestCompleter2;
-  Completer<List<CommentsRow>>? requestCompleter1;
+  bool requestCompleted1 = false;
+  String? requestLastUniqueKey1;
 
   @override
   void initState(BuildContext context) {}
@@ -44,7 +45,7 @@ class CommentLikesModel extends FlutterFlowModel<CommentLikesWidget> {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = requestCompleter1?.isCompleted ?? false;
+      final requestComplete = requestCompleted1;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

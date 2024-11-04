@@ -12,8 +12,10 @@ class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  Completer<List<CommentsRow>>? requestCompleter1;
-  Completer<List<PostsRow>>? requestCompleter2;
+  bool requestCompleted1 = false;
+  String? requestLastUniqueKey1;
+  bool requestCompleted2 = false;
+  String? requestLastUniqueKey2;
   // State field(s) for comment widget.
   FocusNode? commentFocusNode;
   TextEditingController? commentTextController;
@@ -49,7 +51,7 @@ class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = requestCompleter1?.isCompleted ?? false;
+      final requestComplete = requestCompleted1;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }
@@ -64,7 +66,7 @@ class ViewPostModel extends FlutterFlowModel<ViewPostWidget> {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 50));
       final timeElapsed = stopwatch.elapsedMilliseconds;
-      final requestComplete = requestCompleter2?.isCompleted ?? false;
+      final requestComplete = requestCompleted2;
       if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
         break;
       }

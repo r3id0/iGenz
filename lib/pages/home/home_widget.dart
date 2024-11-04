@@ -3,6 +3,7 @@ import '/backend/schema/structs/index.dart';
 import '/backend/supabase/supabase.dart';
 import '/components/grayloadingwidget_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -57,6 +58,10 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
         age: _model.queryUser?.first.age,
         id: _model.queryUser?.first.id,
         userProfilePhoto: _model.queryUser?.first.profilePhoto,
+        bio: _model.queryUser?.first.bio,
+        birthdate: _model.queryUser?.first.birthDate,
+        email: _model.queryUser?.first.email,
+        contactNumber: _model.queryUser?.first.contactNumber,
       );
       safeSetState(() {});
       await actions.unsubscribe(
@@ -322,25 +327,58 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: CachedNetworkImage(
-                                            fadeInDuration:
-                                                const Duration(milliseconds: 500),
-                                            fadeOutDuration:
-                                                const Duration(milliseconds: 500),
-                                            imageUrl: homeUsersRowList
-                                                .unique((e) => currentUserUid)
-                                                .first
-                                                .profilePhoto,
-                                            fit: BoxFit.cover,
-                                            memCacheWidth: 50,
-                                            memCacheHeight: 50,
+                                        InkWell(
+                                          splashColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              PageTransition(
+                                                type: PageTransitionType.fade,
+                                                child:
+                                                    FlutterFlowExpandedImageView(
+                                                  image: CachedNetworkImage(
+                                                    fadeInDuration: const Duration(
+                                                        milliseconds: 500),
+                                                    fadeOutDuration: const Duration(
+                                                        milliseconds: 500),
+                                                    imageUrl: homeUsersRowList
+                                                        .first.profilePhoto,
+                                                    fit: BoxFit.contain,
+                                                    memCacheWidth: 50,
+                                                    memCacheHeight: 50,
+                                                  ),
+                                                  allowRotation: false,
+                                                  tag: homeUsersRowList
+                                                      .first.profilePhoto,
+                                                  useHeroAnimation: true,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Hero(
+                                            tag: homeUsersRowList
+                                                .first.profilePhoto,
+                                            transitionOnUserGestures: true,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              child: CachedNetworkImage(
+                                                fadeInDuration:
+                                                    const Duration(milliseconds: 500),
+                                                fadeOutDuration:
+                                                    const Duration(milliseconds: 500),
+                                                imageUrl: homeUsersRowList
+                                                    .first.profilePhoto,
+                                                width: 50.0,
+                                                height: 50.0,
+                                                fit: BoxFit.cover,
+                                                memCacheWidth: 50,
+                                                memCacheHeight: 50,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -695,33 +733,87 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: [
-                                                          Container(
-                                                            width: 35.0,
-                                                            height: 35.0,
-                                                            clipBehavior:
-                                                                Clip.antiAlias,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                            ),
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              fadeInDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          500),
-                                                              fadeOutDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          500),
-                                                              imageUrl:
-                                                                  postUsersRow!
-                                                                      .profilePhoto,
-                                                              fit: BoxFit.cover,
-                                                              memCacheWidth: 35,
-                                                              memCacheHeight:
-                                                                  35,
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              await Navigator
+                                                                  .push(
+                                                                context,
+                                                                PageTransition(
+                                                                  type:
+                                                                      PageTransitionType
+                                                                          .fade,
+                                                                  child:
+                                                                      FlutterFlowExpandedImageView(
+                                                                    image:
+                                                                        CachedNetworkImage(
+                                                                      fadeInDuration:
+                                                                          const Duration(
+                                                                              milliseconds: 500),
+                                                                      fadeOutDuration:
+                                                                          const Duration(
+                                                                              milliseconds: 500),
+                                                                      imageUrl:
+                                                                          postUsersRow
+                                                                              .profilePhoto,
+                                                                      fit: BoxFit
+                                                                          .contain,
+                                                                      memCacheWidth:
+                                                                          35,
+                                                                      memCacheHeight:
+                                                                          35,
+                                                                    ),
+                                                                    allowRotation:
+                                                                        false,
+                                                                    tag: postUsersRow
+                                                                        .profilePhoto,
+                                                                    useHeroAnimation:
+                                                                        true,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Hero(
+                                                              tag: postUsersRow!
+                                                                  .profilePhoto,
+                                                              transitionOnUserGestures:
+                                                                  true,
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30.0),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  fadeInDuration:
+                                                                      const Duration(
+                                                                          milliseconds:
+                                                                              500),
+                                                                  fadeOutDuration:
+                                                                      const Duration(
+                                                                          milliseconds:
+                                                                              500),
+                                                                  imageUrl:
+                                                                      postUsersRow
+                                                                          .profilePhoto,
+                                                                  width: 35.0,
+                                                                  height: 35.0,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  memCacheWidth:
+                                                                      35,
+                                                                  memCacheHeight:
+                                                                      35,
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
                                                           Flexible(

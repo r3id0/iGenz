@@ -47,6 +47,7 @@ dependencies:
   flutter_blurhash: 0.8.2
   flutter_cache_manager: 3.4.1
   flutter_markdown: 0.7.3+1
+  flutter_native_splash: 2.4.1
   flutter_plugin_android_lifecycle: 2.0.20
   flutter_secure_storage: 9.2.2
   flutter_secure_storage_linux: 1.2.1
@@ -107,6 +108,7 @@ dependencies:
   supabase_flutter: 1.10.24
   synchronized: 3.2.0
   timeago: 3.6.1
+  universal_io: 2.2.2
   url_launcher: 6.3.0
   url_launcher_android: 6.3.10
   url_launcher_ios: 6.3.1
@@ -124,6 +126,7 @@ dependencies:
   webview_flutter_android: 3.16.7
   webview_flutter_platform_interface: 2.10.0
   webview_flutter_wkwebview: 3.15.0
+  xml: 6.5.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -139,10 +142,23 @@ dependency_overrides:
   win32: 5.5.1
 
 dev_dependencies:
+  flutter_launcher_icons: 0.13.1
   flutter_lints: 4.0.0
+  image: 4.2.0
   lints: 4.0.0
   flutter_test:
     sdk: flutter
+
+
+flutter_launcher_icons:
+  android: 'launcher_icon'
+  ios: true
+  web:
+    generate: true
+  image_path: 'assets/images/app_launcher_icon.jpg'
+  adaptive_icon_background: '#e2c000'
+  adaptive_icon_foreground: 'assets/images/adaptive_foreground_icon.jpg'
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

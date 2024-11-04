@@ -58,7 +58,10 @@ class _CommentLikesWidgetState extends State<CommentLikesWidget>
       await actions.subscribe(
         'posts',
         () async {
-          safeSetState(() => _model.requestCompleter1 = null);
+          safeSetState(() {
+            FFAppState().clearCommentsCacheKey(_model.requestLastUniqueKey1);
+            _model.requestCompleted1 = false;
+          });
           await _model.waitForRequestCompleted1();
           FFAppState().clearFeedCache();
         },
@@ -125,14 +128,29 @@ class _CommentLikesWidgetState extends State<CommentLikesWidget>
           centerTitle: true,
         ),
         body: FutureBuilder<List<CommentsRow>>(
-          future: (_model.requestCompleter1 ??= Completer<List<CommentsRow>>()
-                ..complete(CommentsTable().querySingleRow(
-                  queryFn: (q) => q.eq(
-                    'id',
-                    widget.comment?.id,
-                  ),
-                )))
-              .future,
+          future: FFAppState()
+              .comments(
+            uniqueQueryKey: valueOrDefault<String>(
+              widget.comment?.id,
+              'id',
+            ),
+            requestFn: () => CommentsTable().querySingleRow(
+              queryFn: (q) => q.eq(
+                'id',
+                widget.comment?.id,
+              ),
+            ),
+          )
+              .then((result) {
+            try {
+              _model.requestCompleted1 = true;
+              _model.requestLastUniqueKey1 = valueOrDefault<String>(
+                widget.comment?.id,
+                'id',
+              );
+            } finally {}
+            return result;
+          }),
           builder: (context, snapshot) {
             // Customize what your widget looks like when it's loading.
             if (!snapshot.hasData) {
